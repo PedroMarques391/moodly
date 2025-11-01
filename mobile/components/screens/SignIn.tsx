@@ -1,12 +1,15 @@
+import useAnimated from "@/hooks/useAnimated";
 import globals from "@/styles/globals";
 import { SignInData, signInSchema } from "@/validations/signIn.shema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { View } from "react-native";
 import { Button } from "react-native-paper";
+import Animated from "react-native-reanimated";
 import Input from "../ui/Input";
 
 const SignIn = (): React.JSX.Element => {
+  const { animatedStyle } = useAnimated("fadeInZoom");
+
   const {
     control,
     handleSubmit,
@@ -28,7 +31,7 @@ const SignIn = (): React.JSX.Element => {
   }
 
   return (
-    <View style={globals.container}>
+    <Animated.View style={[globals.container, animatedStyle]}>
       <Input
         name="name"
         placeholder="Digite seu nome"
@@ -71,7 +74,7 @@ const SignIn = (): React.JSX.Element => {
       >
         Criar conta
       </Button>
-    </View>
+    </Animated.View>
   );
 };
 

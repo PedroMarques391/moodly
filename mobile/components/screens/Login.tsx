@@ -1,12 +1,14 @@
+import useAnimated from "@/hooks/useAnimated";
 import globals from "@/styles/globals";
 import { LoginData, loginScheme } from "@/validations/login.scheme";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { View } from "react-native";
 import { Button } from "react-native-paper";
+import Animated from "react-native-reanimated";
 import Input from "../ui/Input";
 
 const Login = (): React.JSX.Element => {
+  const { animatedStyle } = useAnimated("fadeInZoom");
   const {
     control,
     handleSubmit,
@@ -26,7 +28,7 @@ const Login = (): React.JSX.Element => {
   }
 
   return (
-    <View style={globals.container}>
+    <Animated.View style={[globals.container, animatedStyle]}>
       <Input
         name="email"
         placeholder="email@example.com"
@@ -52,7 +54,7 @@ const Login = (): React.JSX.Element => {
       >
         Acessar
       </Button>
-    </View>
+    </Animated.View>
   );
 };
 
