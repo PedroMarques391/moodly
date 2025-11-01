@@ -7,7 +7,7 @@ import { theme } from "@/theme/theme";
 import Dashboard from "./dashboard";
 import Home from "./home";
 import Settings from "./settings";
-interface SceneRoute {
+interface IRouter {
   key: string;
   title: string;
   icon: React.ComponentProps<typeof MaterialCommunityIcons>["name"];
@@ -16,13 +16,13 @@ interface SceneRoute {
 export default function HomeLayout() {
   const [index, setIndex] = useState(0);
 
-  const routes: SceneRoute[] = [
+  const routes: IRouter[] = [
     { key: "dashboard", title: "Dashboard", icon: "graph" },
     { key: "home", title: "Home", icon: "home" },
     { key: "settings", title: "Settings", icon: "cog" },
   ];
 
-  const renderScene = ({ route }: { route: SceneRoute }) => {
+  const renderScene = ({ route }: { route: IRouter }) => {
     switch (route.key) {
       case "home":
         return <Home />;
