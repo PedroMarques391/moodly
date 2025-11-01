@@ -65,6 +65,7 @@ const SignIn = (): React.JSX.Element => {
 
       <Btn
         mode="contained"
+        style={{ marginTop: 10, width: "60%" }}
         onPress={handleSubmit(handleSignIn)}
         icon="account-plus"
       >

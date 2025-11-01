@@ -1,21 +1,15 @@
 import { ReactNode } from "react";
-import { Button } from "react-native-paper";
+import { Button, ButtonProps } from "react-native-paper";
 
-interface IButtonProps {
+interface IButtonProps extends ButtonProps {
   icon?: string;
-  mode: "text" | "outlined" | "contained";
   onPress: () => void;
   children: ReactNode;
 }
 
-const Btn = ({ icon, mode, onPress, children }: IButtonProps) => {
+const Btn = ({ icon, onPress, children, ...props }: IButtonProps) => {
   return (
-    <Button
-      style={{ width: "60%" }}
-      icon={icon ? icon : ""}
-      mode={mode}
-      onPress={onPress}
-    >
+    <Button {...props} icon={icon ? icon : ""} onPress={onPress}>
       {children}
     </Button>
   );

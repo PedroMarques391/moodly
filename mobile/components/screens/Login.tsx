@@ -22,11 +22,9 @@ const Login = (): React.JSX.Element => {
   });
 
   function handleLogin(data: LoginData) {
-    console.warn(data);
     reset();
   }
 
-  console.log(errors);
   return (
     <View style={globals.container}>
       <Input
@@ -46,7 +44,12 @@ const Login = (): React.JSX.Element => {
         formError={errors.password?.message}
       />
 
-      <Btn mode="contained" onPress={handleSubmit(handleLogin)} icon="login">
+      <Btn
+        mode="contained"
+        style={{ marginTop: 10, width: "60%" }}
+        onPress={handleSubmit(handleLogin)}
+        icon="login"
+      >
         Acessar
       </Btn>
     </View>
