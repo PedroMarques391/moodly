@@ -18,9 +18,8 @@ const Input = ({
   formError,
   ...props
 }: InputProps) => {
-  console.log(formError);
   return (
-    <View style={{ marginBottom: 10 }}>
+    <View>
       <Controller
         control={control}
         render={({ field: { onChange, value } }) => (
@@ -48,11 +47,11 @@ export default Input;
 const styles = StyleSheet.create({
   input: {
     width: 300,
-    marginVertical: 5,
   },
   error: {
     color: "red",
     fontSize: 12,
-    marginTop: 2,
+    marginVertical: 2,
+    marginLeft: 6,
   },
 });
