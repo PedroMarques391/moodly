@@ -3,7 +3,7 @@ import { SignInData, signInSchema } from "@/validations/signIn.shema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { View } from "react-native";
-import Btn from "../ui/Button";
+import { Button } from "react-native-paper";
 import Input from "../ui/Input";
 
 const SignIn = (): React.JSX.Element => {
@@ -63,14 +63,14 @@ const SignIn = (): React.JSX.Element => {
         formError={errors.confirmPassword?.message}
       />
 
-      <Btn
+      <Button
         mode="contained"
         style={{ marginTop: 10, width: "60%" }}
         onPress={handleSubmit(handleSignIn)}
         icon="account-plus"
       >
         Criar conta
-      </Btn>
+      </Button>
     </View>
   );
 };
