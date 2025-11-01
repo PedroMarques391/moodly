@@ -1,14 +1,23 @@
 import Login from "@/components/screens/Login";
 import SignIn from "@/components/screens/SignIn";
 import { useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Dimensions, Image, Text, TouchableOpacity, View } from "react-native";
+import { styles } from "./auth.styles";
+
+const { height } = Dimensions.get("window");
 
 const AuthPage = (): React.JSX.Element => {
   const [type, setType] = useState<"signin" | "login">("signin");
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Seja bem-vindo ao Moodly 🌙</Text>
+      <View style={styles.logoContainer}>
+        <Image
+          source={require("../../assets/logo2.png")}
+          style={styles.logo}
+          resizeMode="cover"
+        />
+      </View>
 
       <View style={styles.formContainer}>
         {type === "signin" ? <SignIn /> : <Login />}
@@ -29,40 +38,3 @@ const AuthPage = (): React.JSX.Element => {
 };
 
 export default AuthPage;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 20,
-  },
-  title: {
-    fontSize: 24,
-    fontWeight: "700",
-    color: "#333",
-    marginBottom: 20,
-    textAlign: "center",
-  },
-  divider: {
-    height: 10,
-    width: "100%",
-    backgroundColor: "#c20000",
-    marginVertical: 20,
-  },
-  formContainer: {
-    width: "100%",
-  },
-  switchButton: {
-    marginTop: 30,
-    paddingVertical: 12,
-    paddingHorizontal: 20,
-    borderRadius: 10,
-  },
-  switchText: {
-    color: "#007BFF",
-    fontSize: 16,
-    fontWeight: "500",
-    textDecorationLine: "underline",
-  },
-});
