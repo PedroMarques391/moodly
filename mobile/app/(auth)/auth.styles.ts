@@ -1,37 +1,37 @@
-import { Dimensions, StyleSheet } from "react-native";
+import { theme } from "@/theme/theme";
+import { Dimensions, Platform, StyleSheet } from "react-native";
 
 const { height } = Dimensions.get("window");
 
-export const styles = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
-    alignItems: "center",
-    marginBottom: 20,
+    backgroundColor: theme.colors.background,
+    justifyContent: "flex-start",
   },
+
   logoContainer: {
     width: "100%",
     height: height * 0.4,
-    justifyContent: "center",
-    alignItems: "center",
   },
-  logo: {
-    width: "100%",
-    height: "100%",
-  },
-  formContainer: {
-    width: "100%",
-  },
+
   switchButton: {
-    marginTop: 30,
+    alignSelf: "center",
     paddingVertical: 12,
     paddingHorizontal: 20,
     borderRadius: 10,
+    bottom: 0,
+    marginBottom: Platform.OS === "ios" ? 40 : 20,
+    position: "absolute",
   },
+
   switchText: {
-    color: "#007BFF",
+    color: theme.colors.primaryDark,
     fontSize: 16,
     fontWeight: "500",
     textDecorationLine: "underline",
     textAlign: "center",
   },
 });
+
+export default styles;
