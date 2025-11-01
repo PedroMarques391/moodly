@@ -13,6 +13,9 @@ const HomePage = (): React.JSX.Element => {
       <Link href="/auth">
         <Text>Go to Auth Home Screen</Text>
       </Link>
+      <Link href="/home">
+        <Text> Home Screen</Text>
+      </Link>
     </View>
   );
 };
