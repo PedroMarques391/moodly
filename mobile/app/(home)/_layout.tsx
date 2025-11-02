@@ -1,9 +1,8 @@
+import { theme } from "@/theme/theme";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import React, { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import { BottomNavigation, Provider } from "react-native-paper";
-
-import { theme } from "@/theme/theme";
 import Dashboard from "./dashboard";
 import Home from "./home";
 import Settings from "./settings";
