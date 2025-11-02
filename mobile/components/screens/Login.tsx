@@ -1,5 +1,4 @@
 import useAnimated from "@/hooks/useAnimated";
-import globals from "@/styles/globals";
 import { LoginData, loginScheme } from "@/validations/login.scheme";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -28,7 +27,16 @@ const Login = (): React.JSX.Element => {
   }
 
   return (
-    <Animated.View style={[globals.container, animatedStyle]}>
+    <Animated.View
+      style={[
+        animatedStyle,
+        {
+          gap: 10,
+          alignItems: "center",
+          paddingVertical: 20,
+        },
+      ]}
+    >
       <Input
         name="email"
         placeholder="email@example.com"

@@ -1,5 +1,4 @@
 import useAnimated from "@/hooks/useAnimated";
-import globals from "@/styles/globals";
 import { SignInData, signInSchema } from "@/validations/signIn.shema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
@@ -31,7 +30,16 @@ const SignIn = (): React.JSX.Element => {
   }
 
   return (
-    <Animated.View style={[globals.container, animatedStyle]}>
+    <Animated.View
+      style={[
+        animatedStyle,
+        {
+          gap: 10,
+          alignItems: "center",
+          paddingVertical: 20,
+        },
+      ]}
+    >
       <Input
         name="name"
         placeholder="Digite seu nome"
@@ -68,7 +76,7 @@ const SignIn = (): React.JSX.Element => {
 
       <Button
         mode="contained"
-        style={{ marginTop: 10, width: "60%" }}
+        style={{ marginTop: 10, width: "50%" }}
         onPress={handleSubmit(handleSignIn)}
         icon="account-plus"
       >
