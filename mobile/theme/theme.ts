@@ -1,40 +1,30 @@
-// theme.ts
 export const theme = {
   colors: {
-    background: "#FAF6F5",
-
+    background: "#F9FAFB",
     surface: "#FFFFFF",
 
-    primary: "#80aec1",
+    primary: "#5CA3C3",
+    primaryLight: "#A7D8F2",
+    primaryDark: "#357CA1",
 
-    primaryLight: "#A5D8FF",
-    primaryDark: "#90b6fdff",
-
-    secondary: "#A991F7",
+    secondary: "#FF9770",
+    accent: "#FFD166",
 
     moodHappy: "#FFD166",
-    moodSad: "#6C91BF",
-    moodAngry: "#EF476F",
-    moodCalm: "#73C2BE",
-    moodNeutral: "#BDBDBD",
+    moodSad: "#7BA8C9",
+    moodAngry: "#F16D7A",
+    moodCalm: "#7DD0C4",
+    moodNeutral: "#C4C4C4",
 
-    textPrimary: "#1E1E1E",
-    textSecondary: "#6C757D",
+    textPrimary: "#1E293B",
+    textSecondary: "#64748B",
 
-    border: "#E5E5E5",
-    shadow: "rgba(0, 0, 0, 0.05)",
+    border: "#E2E8F0",
+    shadow: "rgba(0, 0, 0, 0.08)",
 
-    error: "#E63946",
-    success: "#06D6A0",
+    error: "#EF4444",
+    success: "#22C55E",
   },
-
-  fonts: {
-    regular: "Inter_400Regular",
-    medium: "Inter_500Medium",
-    semiBold: "Inter_600SemiBold",
-    bold: "Inter_700Bold",
-  },
-
   spacing: {
     xs: 4,
     sm: 8,
