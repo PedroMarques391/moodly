@@ -1,0 +1,32 @@
+{
+  "name": "moodly-api",
+  "version": "1.0.0",
+  "description": "api for the moodly app.",
+  "keywords": [
+    "api",
+    "fastfy",
+    "node",
+    "js",
+    "typescript"
+  ],
+  "license": "ISC",
+  "author": "Pedro Marques",
+  "type": "commonjs",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon src/index.ts",
+    "build": "tsc -p tsconfig.json",
+    "start": "node src/index.js"
+  },
+  "dependencies": {
+    "bcrypt": "^6.0.0",
+    "fastify": "^5.6.1",
+    "uuid": "^13.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.10.0",
+    "nodemon": "^3.1.10",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.9.3"
+  }
+}
