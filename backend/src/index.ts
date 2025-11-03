@@ -1,7 +1,7 @@
-import fastify from "fastify";
+import fastify, { FastifyInstance } from "fastify";
 import userRouter from "./routes/user.router";
 
-const server = fastify();
+const server: FastifyInstance = fastify();
 
 const port: number = 3000;
 
