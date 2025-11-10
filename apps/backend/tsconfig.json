@@ -9,7 +9,6 @@
     "module": "nodenext",
     "target": "es2020",
     "outDir": "./dist",
-    "types": [],
     // For nodejs:
     // "lib": ["esnext"],
     // "types": ["node"],

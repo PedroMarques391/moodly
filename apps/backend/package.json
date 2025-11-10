@@ -19,6 +19,7 @@
     "start": "npm run build && node dist/src/index.js"
   },
   "dependencies": {
+    "@moodly/core": "*",
     "bcrypt": "^6.0.0",
     "fastify": "^5.6.1",
     "uuid": "^13.0.0"

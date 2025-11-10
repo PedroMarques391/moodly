@@ -1,0 +1,23 @@
+{
+  "name": "moodly",
+  "version": "1.0.0",
+  "description": "app to records emotions.",
+  "repository": "git@github.com:PedroMarques391/moodly.git",
+  "author": "Pedro Marques <pedromarques391@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "dev": "run-p app:* packages:*",
+    "app:mobile": "cd apps/mobile && npx expo start",
+    "app:backend": "cd apps/backend && yarn run dev",
+    "packages:core": "cd packages/core && yarn run dev"
+  },
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "dependencies": {},
+  "devDependencies": {
+    "npm-run-all": "^4.1.5"
+  }
+}
