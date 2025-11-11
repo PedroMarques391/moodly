@@ -1,3 +1,4 @@
 import User from "./UserModel";
+import IUserRepository from "./UserRepository";
 
-export { User };
+export { IUserRepository, User };

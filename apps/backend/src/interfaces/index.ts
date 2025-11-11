@@ -1,3 +1,1 @@
-import { IUsers } from "./IUser";
-
-export type { IUsers };
+export type * from "./PartialUser";
