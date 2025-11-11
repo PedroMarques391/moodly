@@ -3,10 +3,10 @@ import { prisma } from "../database/initialize";
 
 export class UserRepository implements UserRepositoryModel {
   async findByEmail(email: string) {
-    return prisma.user.findUnique({ where: { email } });
+    return prisma.users.findUnique({ where: { email } });
   }
   async createUser({ name, email, password }: CreateUser) {
-    await prisma.user.create({
+    await prisma.users.create({
       data: {
         name,
         email,
