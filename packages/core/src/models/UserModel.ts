@@ -1,4 +1,4 @@
-export default interface User {
+interface User {
   id: string;
   name: string;
   email: string;
@@ -7,3 +7,7 @@ export default interface User {
   createdAt: Date;
   updatedAt: Date;
 }
+type CreateUser = Pick<User, "name" | "email" | "password">;
+type LoginUser = Pick<User, "email" | "password">;
+
+export { CreateUser, LoginUser, type User };
