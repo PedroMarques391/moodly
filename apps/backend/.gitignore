@@ -2,3 +2,5 @@
 .env
 .env_local
 /dist
+
+/src/generated/prisma

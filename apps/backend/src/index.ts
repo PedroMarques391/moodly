@@ -1,6 +1,5 @@
 import fastify, { FastifyInstance } from "fastify";
-import userRouter from "./routes/user.router";
-import { register } from "module";
+import userRouter from "./controller/user.router.controller";
 
 const server: FastifyInstance = fastify();
 
