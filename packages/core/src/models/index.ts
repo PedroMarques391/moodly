@@ -1,4 +1,4 @@
 import { CreateUser, LoginUser, User } from "./UserModel";
-import IUserRepository from "./UserRepository";
+import UserRepositoryModel from "./UserRepositoryModel";
 
-export { CreateUser, IUserRepository, LoginUser, User };
+export { CreateUser, LoginUser, User, UserRepositoryModel };
