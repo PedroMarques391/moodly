@@ -1,6 +1,5 @@
-import { CreateUser } from "@moodly/core";
+import { CreateUser, LoginUser } from "@moodly/core";
 import { FastifyInstance } from "fastify";
-import { authMiddleware } from "../middlewares/auth.middleware";
 import userService from "../services/user.service";
 
 export default function userController(fastify: FastifyInstance) {
@@ -18,8 +17,14 @@ export default function userController(fastify: FastifyInstance) {
     }
   });
 
-  fastify.get("/", { preHandler: authMiddleware }, async (req, reply) => {
-    const payload = req.user;
-    reply.send(payload);
+  fastify.post<{ Body: LoginUser }>("/login", async (req, reply) => {
+    const { email, password } = req.body;
+    try {
+      const user = await userService.loginUser({ email, password });
+      const token = fastify.jwt.sign(user);
+      reply.send(token).code(200);
+    } catch (error) {
+      reply.send(error).code(400);
+    }
   });
 }

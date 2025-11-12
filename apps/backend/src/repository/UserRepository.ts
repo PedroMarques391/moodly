@@ -16,8 +16,8 @@ export class UserRepository implements UserRepositoryModel {
     });
   }
 
-  async login({ email, password }: LoginUser): Promise<User | null> {
-    throw new Error("Method not implemented.");
+  async login({ email, password }: LoginUser): Promise<void> {
+    await prisma.users.findUnique({ where: { email, password } });
   }
 
   async findById(id: string): Promise<User | null> {
