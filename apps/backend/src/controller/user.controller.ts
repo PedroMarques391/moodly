@@ -22,7 +22,6 @@ export default function userController(fastify: FastifyInstance) {
     try {
       const payload = await userService.loginUser({ email, password });
       const token = fastify.jwt.sign(payload);
-      console.log(token);
       reply.send(token).code(200);
     } catch (error) {
       reply.send(error).code(400);
