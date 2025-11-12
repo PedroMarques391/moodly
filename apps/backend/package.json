@@ -19,6 +19,7 @@
     "start": "npm run build && node --env-file=.env dist/src/index.js"
   },
   "dependencies": {
+    "@fastify/jwt": "^10.0.0",
     "@moodly/core": "*",
     "@prisma/client": "^6.19.0",
     "bcrypt": "^6.0.0",
