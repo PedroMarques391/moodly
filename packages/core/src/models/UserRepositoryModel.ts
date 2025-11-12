@@ -1,9 +1,8 @@
-import { CreateUser, LoginUser, User } from "./UserModel";
+import { CreateUser, Payload, User } from "./UserModel";
 
 export default interface UserRepositoryModel {
   findByEmail(email: string): Promise<User | null>;
-  createUser(user: CreateUser): Promise<void>;
-  login(user: LoginUser): Promise<User | null>;
+  createUser(user: CreateUser): Promise<Payload>;
   findById(id: string): Promise<User | null>;
   update(id: string, user: Partial<User>): Promise<void>;
 }
