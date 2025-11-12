@@ -1,9 +1,5 @@
-import {
-  CreateUser,
-  Encrypt,
-  LoginUser,
-  UserRepositoryModel,
-} from "@moodly/core";
+import { CreateUser, LoginUser, UserRepositoryModel } from "@moodly/core";
+import bycrypt from "bcrypt";
 import { UserRepository } from "../repository/UserRepository";
 
 class UserService {
@@ -17,7 +13,7 @@ class UserService {
 
     if (existing) throw new Error("USER_ALREADY_EXISTS");
 
-    const hashedPassword = await Encrypt.generate(password);
+    const hashedPassword = await bycrypt.hash(password, 10);
 
     await this.userRepository.createUser({
       name,
