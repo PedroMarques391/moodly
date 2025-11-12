@@ -11,8 +11,7 @@ export default function userController(fastify: FastifyInstance) {
 
     try {
       await userService.createUser({ name, email, password });
-      const payload = { name, email };
-      const token = fastify.jwt.sign(payload);
+      const token = fastify.jwt.sign({ name, email });
       reply.send({ message: "user created", token }).code(201);
     } catch (error) {
       reply.send(error).code(400);
