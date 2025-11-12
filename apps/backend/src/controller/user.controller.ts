@@ -9,8 +9,8 @@ export default function userController(fastify: FastifyInstance) {
     const { name, email, password } = req.body;
 
     try {
-      await userService.createUser({ name, email, password });
-      const token = fastify.jwt.sign({ name, email });
+      const payload = await userService.createUser({ name, email, password });
+      const token = fastify.jwt.sign(payload);
       reply.send(token).code(201);
     } catch (error) {
       reply.send(error).code(400);
@@ -20,8 +20,9 @@ export default function userController(fastify: FastifyInstance) {
   fastify.post<{ Body: LoginUser }>("/login", async (req, reply) => {
     const { email, password } = req.body;
     try {
-      const user = await userService.loginUser({ email, password });
-      const token = fastify.jwt.sign(user);
+      const payload = await userService.loginUser({ email, password });
+      const token = fastify.jwt.sign(payload);
+      console.log(token);
       reply.send(token).code(200);
     } catch (error) {
       reply.send(error).code(400);
