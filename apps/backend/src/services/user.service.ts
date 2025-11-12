@@ -1,4 +1,9 @@
-import { CreateUser, LoginUser, User, UserRepositoryModel } from "@moodly/core";
+import {
+  CreateUser,
+  LoginUser,
+  Payload,
+  UserRepositoryModel,
+} from "@moodly/core";
 import bycrypt from "bcrypt";
 import { UserRepository } from "../repository/UserRepository";
 
@@ -9,30 +14,33 @@ class UserService {
   }
   async createUser({ name, email, password }: CreateUser) {
     const existing = await this.userRepository.findByEmail(email);
-    console.log(existing);
 
     if (existing) throw new Error("USER_ALREADY_EXISTS");
 
     const hashedPassword = await bycrypt.hash(password, 10);
 
-    await this.userRepository.createUser({
+    const newUser = await this.userRepository.createUser({
       name,
       email,
       password: hashedPassword,
     });
-    return;
+    return {
+      id: newUser.id,
+      email: newUser.email,
+      name: newUser.name,
+    };
   }
 
-  async loginUser({ email, password }: LoginUser): Promise<Partial<User>> {
+  async loginUser({ email, password }: LoginUser): Promise<Payload> {
     const user = await this.userRepository.findByEmail(email);
     if (!user) throw new Error("USER_OR_PASSWORD_INCORRECT");
     const descriptedPassword = await bycrypt.compare(password, user.password);
     if (!descriptedPassword) throw new Error("USER_OR_PASSWORD_INCORRECT");
 
-    await this.userRepository.login({ email, password });
     return {
-      name: user.name,
+      id: user.id,
       email: user.email,
+      name: user.name,
     };
   }
 }
