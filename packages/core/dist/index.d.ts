@@ -18,13 +18,4 @@ interface UserRepositoryModel {
     update(id: string, user: Partial<User>): Promise<void>;
 }
 
-declare class Encrypt {
-    static generate(password: string): Promise<string>;
-    static compare(password: string, hash: string): Promise<boolean>;
-}
-
-declare class Id {
-    static generate(): string;
-}
-
-export { type CreateUser, Encrypt, Id, type LoginUser, type User, type UserRepositoryModel };
+export type { CreateUser, LoginUser, User, UserRepositoryModel };
