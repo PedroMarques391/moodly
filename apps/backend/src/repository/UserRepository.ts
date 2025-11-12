@@ -1,12 +1,12 @@
-import { CreateUser, LoginUser, User, UserRepositoryModel } from "@moodly/core";
+import { CreateUser, Payload, User, UserRepositoryModel } from "@moodly/core";
 import { prisma } from "../database/initialize";
 
 export class UserRepository implements UserRepositoryModel {
   async findByEmail(email: string) {
     return prisma.users.findUnique({ where: { email } });
   }
-  async createUser({ name, email, password }: CreateUser) {
-    await prisma.users.create({
+  async createUser({ name, email, password }: CreateUser): Promise<Payload> {
+    const user = await prisma.users.create({
       data: {
         name,
         email,
@@ -14,10 +14,12 @@ export class UserRepository implements UserRepositoryModel {
         password,
       },
     });
-  }
 
-  async login({ email, password }: LoginUser): Promise<void> {
-    await prisma.users.findUnique({ where: { email, password } });
+    return {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+    };
   }
 
   async findById(id: string): Promise<User | null> {
