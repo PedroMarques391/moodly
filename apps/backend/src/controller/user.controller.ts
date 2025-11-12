@@ -1,5 +1,6 @@
-import { CreateUser, LoginUser } from "@moodly/core";
-import { FastifyInstance } from "fastify";
+import { CreateUser, LoginUser, User } from "@moodly/core";
+import { FastifyInstance, FastifyReply } from "fastify";
+import { authMiddleware } from "../middlewares/auth.middleware";
 import userService from "../services/user.service";
 
 export default function userController(fastify: FastifyInstance) {
@@ -27,4 +28,18 @@ export default function userController(fastify: FastifyInstance) {
       reply.send(error).code(400);
     }
   });
+
+  fastify.get<{ Params: Pick<User, "email"> }>(
+    "/:email",
+    { preHandler: authMiddleware },
+    async (req, reply: FastifyReply) => {
+      const { email } = req.params;
+      try {
+        const user = await userService.getUser(email);
+        reply.send(user).code(200);
+      } catch (error) {
+        reply.send(error).code(400);
+      }
+    }
+  );
 }
