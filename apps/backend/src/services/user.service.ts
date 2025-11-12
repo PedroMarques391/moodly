@@ -2,6 +2,7 @@ import {
   CreateUser,
   LoginUser,
   Payload,
+  User,
   UserRepositoryModel,
 } from "@moodly/core";
 import bycrypt from "bcrypt";
@@ -42,6 +43,12 @@ class UserService {
       email: user.email,
       name: user.name,
     };
+  }
+
+  async getUser(email: string): Promise<User> {
+    const user = await this.userRepository.findByEmail(email);
+    if (!user) throw new Error("USER_NOT_FOUND");
+    return user;
   }
 }
 
