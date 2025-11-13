@@ -1,3 +1,4 @@
+import { useAuthStore } from "@/store/useAuthStore";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React, { useEffect, useMemo, useRef } from "react";
 import { Animated, Easing, Text, TouchableOpacity, View } from "react-native";
@@ -5,6 +6,7 @@ import { Card } from "react-native-paper";
 import styles from "./home.styles";
 
 export default function Home(): React.JSX.Element {
+  const { user, logout } = useAuthStore();
   const hour: number = new Date().getHours();
 
   const greeting = useMemo(() => {
@@ -59,14 +61,20 @@ export default function Home(): React.JSX.Element {
         }}
       >
         <View style={styles.greetingContainer}>
-          <Text style={styles.greeting}>{greeting}, Pedro 👋</Text>
+          <Text style={styles.greeting}>
+            {greeting}, {user?.name}
+          </Text>
           <Text style={styles.subtitle}>Como você está se sentindo hoje?</Text>
         </View>
 
         <Card mode="contained" style={styles.moodCard}>
           <Card.Content>
             <Text style={styles.cardTitle}>Seu humor de hoje</Text>
-            <TouchableOpacity activeOpacity={0.7} style={styles.moodButton}>
+            <TouchableOpacity
+              onPress={logout}
+              activeOpacity={0.7}
+              style={styles.moodButton}
+            >
               <Text style={styles.moodEmoji}>😄</Text>
               <Text style={styles.moodText}>Registrar emoção</Text>
             </TouchableOpacity>
