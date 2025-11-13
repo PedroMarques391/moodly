@@ -1,13 +1,21 @@
 import useAnimated from "@/hooks/useAnimated";
+import { useAuthStore } from "@/store/useAuthStore";
 import { SignInData, signInSchema } from "@/validations/signIn.shema";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "expo-router";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Button } from "react-native-paper";
+import { View } from "react-native";
+import { Button, Text } from "react-native-paper";
 import Animated from "react-native-reanimated";
 import Input from "../ui/Input";
 
 const SignIn = (): React.JSX.Element => {
+  const [error, setError] = useState<string | undefined>(undefined);
   const { animatedStyle } = useAnimated("fadeInZoom");
+  const { isLoading } = useAuthStore();
+  const signIn = useAuthStore((state) => state.signIn);
+  const router = useRouter();
 
   const {
     control,
@@ -24,9 +32,17 @@ const SignIn = (): React.JSX.Element => {
       confirmPassword: "",
     },
   });
-  function handleSignIn(data: SignInData) {
-    console.warn(data);
+  async function handleSignIn(data: SignInData) {
+    const { name, email, password } = data;
+    const result = await signIn(name, email, password);
+
+    if (!result.success) {
+      setError(result.error);
+      setTimeout(() => setError(undefined), 2000);
+      return;
+    }
     reset();
+    router.push("/(home)/home");
   }
 
   return (
@@ -74,7 +90,25 @@ const SignIn = (): React.JSX.Element => {
         formError={errors.confirmPassword?.message}
       />
 
+      {error && (
+        <View
+          style={{
+            alignItems: "center",
+            backgroundColor: "red",
+            padding: 10,
+            width: "70%",
+            borderRadius: 10,
+          }}
+        >
+          <Text style={{ color: "white", fontSize: 16, fontWeight: "bold" }}>
+            {error}
+          </Text>
+        </View>
+      )}
+
       <Button
+        loading={isLoading}
+        disabled={isLoading}
         mode="contained"
         style={{ marginTop: 10, width: "50%" }}
         onPress={handleSubmit(handleSignIn)}

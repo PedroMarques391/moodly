@@ -1,13 +1,20 @@
 import useAnimated from "@/hooks/useAnimated";
+import { useAuthStore } from "@/store/useAuthStore";
 import { LoginData, loginScheme } from "@/validations/login.scheme";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "expo-router";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Button } from "react-native-paper";
+import { View } from "react-native";
+import { Button, Text } from "react-native-paper";
 import Animated from "react-native-reanimated";
 import Input from "../ui/Input";
 
 const Login = (): React.JSX.Element => {
+  const [error, setError] = useState<string | undefined>(undefined);
   const { animatedStyle } = useAnimated("fadeInZoom");
+  const { isLoading, login } = useAuthStore();
+  const router = useRouter();
   const {
     control,
     handleSubmit,
@@ -22,8 +29,17 @@ const Login = (): React.JSX.Element => {
     },
   });
 
-  function handleLogin(data: LoginData) {
+  async function handleLogin(data: LoginData) {
+    const { email, password } = data;
+    const result = await login(email, password);
+
+    if (!result.success) {
+      setError(result.error);
+      setTimeout(() => setError(undefined), 2000);
+      return;
+    }
     reset();
+    router.push("/(home)/home");
   }
 
   return (
@@ -53,8 +69,24 @@ const Login = (): React.JSX.Element => {
         control={control}
         formError={errors.password?.message}
       />
-
+      {error && (
+        <View
+          style={{
+            alignItems: "center",
+            backgroundColor: "red",
+            padding: 10,
+            width: "70%",
+            borderRadius: 10,
+          }}
+        >
+          <Text style={{ color: "white", fontSize: 16, fontWeight: "bold" }}>
+            {error}
+          </Text>
+        </View>
+      )}
       <Button
+        loading={isLoading}
+        disabled={isLoading}
         mode="contained"
         style={{ marginTop: 10, width: "60%" }}
         onPress={handleSubmit(handleLogin)}
