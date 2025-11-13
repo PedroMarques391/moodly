@@ -1,81 +1,82 @@
+import { useAuthStore } from "@/store/useAuthStore";
 import { theme } from "@/theme/theme";
+import { getItem } from "@/utils/storage";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import React, { useState } from "react";
-import { StyleSheet, View } from "react-native";
-import { BottomNavigation, Provider } from "react-native-paper";
-import Dashboard from "./dashboard";
-import Home from "./home";
-import Settings from "./settings";
-interface IRouter {
-  key: string;
-  title: string;
-  icon: React.ComponentProps<typeof MaterialCommunityIcons>["name"];
-}
+import { router, Tabs } from "expo-router";
+import React, { useEffect } from "react";
 
 export default function HomeLayout() {
-  const [index, setIndex] = useState(0);
+  const { user } = useAuthStore();
 
-  const routes: IRouter[] = [
-    { key: "dashboard", title: "Dashboard", icon: "graph" },
-    { key: "home", title: "Home", icon: "home" },
-    { key: "settings", title: "Settings", icon: "cog" },
-  ];
+  useEffect(() => {
+    const fetch = async () => {
+      const token = await getItem("token");
+      if (!user || !token) {
+        router.replace("/(auth)/auth");
+      }
+    };
 
-  const renderScene = ({ route }: { route: IRouter }) => {
-    switch (route.key) {
-      case "home":
-        return <Home />;
-      case "settings":
-        return <Settings />;
-      case "dashboard":
-        return <Dashboard />;
-      default:
-        return null;
-    }
-  };
+    fetch();
+  }, [user]);
+
+  if (!user) return null;
 
   return (
-    <Provider>
-      <View style={styles.container}>
-        <View style={styles.content}>
-          {renderScene({ route: routes[index] })}
-        </View>
-
-        <BottomNavigation.Bar
-          style={{
-            position: "absolute",
-            bottom: 0,
-            backgroundColor: theme.colors.primaryLight,
-          }}
-          navigationState={{ index, routes }}
-          activeColor={theme.colors.textPrimary}
-          inactiveColor={theme.colors.textSecondary}
-          activeIndicatorStyle={{ backgroundColor: theme.colors.primary }}
-          onTabPress={({ route }) => {
-            const newIndex = routes.findIndex((r) => r.key === route.key);
-            if (newIndex !== -1) {
-              setIndex(newIndex);
-            }
-          }}
-          renderIcon={({ route, color, focused }) => (
+    <Tabs
+      screenOptions={{
+        headerShown: false,
+        tabBarActiveTintColor: theme.colors.primary,
+        tabBarInactiveTintColor: theme.colors.textSecondary,
+        tabBarStyle: {
+          backgroundColor: theme.colors.primaryLight,
+          borderTopWidth: 0,
+          elevation: 8,
+          height: 65,
+          paddingBottom: 10,
+        },
+      }}
+    >
+      <Tabs.Screen
+        name="dashboard"
+        options={{
+          title: "Dashboard",
+          tabBarIcon: ({ color, size, focused }) => (
             <MaterialCommunityIcons
-              name={route.icon}
-              size={focused ? 28 : 24}
+              name={focused ? "chart-line" : "chart-line"}
+              size={size}
               color={color}
             />
-          )}
-          getLabelText={({ route }) => route.title}
-        />
-      </View>
-    </Provider>
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="home/index"
+        options={{
+          title: "Início",
+          tabBarIcon: ({ color, size, focused }) => (
+            <MaterialCommunityIcons
+              name={focused ? "home" : "home-outline"}
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
+
+      <Tabs.Screen
+        name="settings"
+        options={{
+          title: "Configurações",
+          tabBarIcon: ({ color, size, focused }) => (
+            <MaterialCommunityIcons
+              name={focused ? "cog" : "cog-outline"}
+              size={size}
+              color={color}
+            />
+          ),
+        }}
+      />
+    </Tabs>
   );
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-  content: {
-    flex: 1,
-  },
-});
