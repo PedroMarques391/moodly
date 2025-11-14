@@ -1,3 +1,4 @@
+import { useAuth } from "@/hooks/useAuth";
 import { useAuthStore } from "@/store/auth.store";
 import { theme } from "@/theme/theme";
 import { getItem } from "@/utils/storage";
@@ -7,17 +8,22 @@ import React, { useEffect } from "react";
 
 export default function HomeLayout() {
   const { user } = useAuthStore();
+  const { getUser } = useAuth();
 
   useEffect(() => {
     const fetch = async () => {
       const token = await getItem("token");
-      if (!user || !token) {
+
+      await getUser();
+      if (!token) {
         router.replace("/(auth)/auth");
       }
     };
 
     fetch();
-  }, [user]);
+  }, [getUser]);
+
+  console.log(user);
 
   if (!user) return null;
 
@@ -51,7 +57,7 @@ export default function HomeLayout() {
       />
 
       <Tabs.Screen
-        name="home/index"
+        name="home"
         options={{
           title: "Início",
           tabBarIcon: ({ color, size, focused }) => (

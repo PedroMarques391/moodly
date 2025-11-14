@@ -10,7 +10,8 @@ export class UserRepository implements UserRepositoryModel {
       data: {
         name,
         email,
-        image: "https://pin.it/2NXdmhrS3",
+        image:
+          "https://i.pinimg.com/736x/91/ad/3c/91ad3c9af6b8240a5e806230f4eeb8a0.jpg",
         password,
       },
     });

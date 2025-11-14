@@ -2,11 +2,12 @@ import IUseAuth from "@/interfaces/useAuth";
 import { useAuthStore } from "@/store/auth.store";
 import decodeToken from "@/utils/decotePayload";
 import { getItem, saveItem } from "@/utils/storage";
+import { useCallback } from "react";
 
 export const useAuth = (): IUseAuth => {
   const { setError, setIsLoading, setUser } = useAuthStore.getState();
 
-  async function getUser() {
+  const getUser = useCallback(async () => {
     setIsLoading(true);
     setError(null);
 
@@ -40,7 +41,7 @@ export const useAuth = (): IUseAuth => {
     } finally {
       setIsLoading(false);
     }
-  }
+  }, [setError, setIsLoading, setUser]);
   async function signIn(
     name: string,
     email: string,
