@@ -17,7 +17,7 @@ server.register(
   { prefix: "/api/v1" }
 );
 
-server.listen({ port: port }, (err, _) => {
+server.listen({ port: port, host: "0.0.0.0" }, (err, _) => {
   if (err) {
     console.error(err);
     process.exit(1);
