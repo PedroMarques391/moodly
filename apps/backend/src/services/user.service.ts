@@ -45,10 +45,17 @@ class UserService {
     };
   }
 
-  async getUser(email: string): Promise<User> {
+  async getUser(email: string): Promise<Omit<User, "password">> {
     const user = await this.userRepository.findByEmail(email);
     if (!user) throw new Error("USER_NOT_FOUND");
-    return user;
+    return {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+      image: user.image,
+      createdAt: user.createdAt,
+      updatedAt: user.updatedAt,
+    };
   }
 }
 
