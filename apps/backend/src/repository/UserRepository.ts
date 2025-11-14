@@ -10,7 +10,7 @@ export class UserRepository implements UserRepositoryModel {
       data: {
         name,
         email,
-        image: "https://cdn-icons-png.flaticon.com/512/149/149071.png",
+        image: "https://pin.it/2NXdmhrS3",
         password,
       },
     });
