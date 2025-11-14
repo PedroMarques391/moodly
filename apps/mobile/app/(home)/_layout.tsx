@@ -1,4 +1,4 @@
-import { useAuthStore } from "@/store/useAuthStore";
+import { useAuthStore } from "@/store/auth.store";
 import { theme } from "@/theme/theme";
 import { getItem } from "@/utils/storage";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";

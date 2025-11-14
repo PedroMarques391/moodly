@@ -1,5 +1,6 @@
 import useAnimated from "@/hooks/useAnimated";
-import { useAuthStore } from "@/store/useAuthStore";
+import { useAuth } from "@/hooks/useAuth";
+import { useAuthStore } from "@/store/auth.store";
 import { SignInData, signInSchema } from "@/validations/signIn.shema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "expo-router";
@@ -13,8 +14,8 @@ import Input from "../ui/Input";
 const SignIn = (): React.JSX.Element => {
   const [error, setError] = useState<string | undefined>(undefined);
   const { animatedStyle } = useAnimated("fadeInZoom");
+  const { signIn } = useAuth();
   const { isLoading } = useAuthStore();
-  const signIn = useAuthStore((state) => state.signIn);
   const router = useRouter();
 
   const {

@@ -1,4 +1,5 @@
-import { useAuthStore } from "@/store/useAuthStore";
+import { useAuth } from "@/hooks/useAuth";
+import { useAuthStore } from "@/store/auth.store";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import React, { useEffect, useMemo, useRef } from "react";
 import { Animated, Easing, Text, TouchableOpacity, View } from "react-native";
@@ -6,7 +7,8 @@ import { Card } from "react-native-paper";
 import styles from "./home.styles";
 
 export default function Home(): React.JSX.Element {
-  const { user, logout } = useAuthStore();
+  const { user } = useAuthStore();
+  const { logout } = useAuth();
   const hour: number = new Date().getHours();
 
   const greeting = useMemo(() => {
