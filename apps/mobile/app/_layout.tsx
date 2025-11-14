@@ -1,7 +1,7 @@
 import { theme as moodlyTheme } from "@/theme/theme";
 import { Slot } from "expo-router";
 import React from "react";
-import { View } from "react-native";
+import { StatusBar, View } from "react-native";
 import { DefaultTheme, PaperProvider } from "react-native-paper";
 import "react-native-reanimated";
 
@@ -29,6 +29,11 @@ export default function RootLayout() {
           backgroundColor: paperTheme.colors.background,
         }}
       >
+        <StatusBar
+          barStyle={"light-content"}
+          networkActivityIndicatorVisible
+          animated
+        />
         <Slot />
       </View>
     </PaperProvider>
