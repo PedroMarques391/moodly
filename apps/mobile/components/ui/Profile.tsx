@@ -1,15 +1,12 @@
-import { User } from "@moodly/core";
-import { Image, Text, TouchableOpacity, View } from "react-native";
-// Importe o ícone da biblioteca que você usa (ex: expo ou react-native-vector-icons)
 import { styles } from "@/styles/profile.styles";
 import { theme } from "@/theme/theme";
 import formatDate from "@/utils/formatDate";
 import { Feather } from "@expo/vector-icons";
+import { User } from "@moodly/core";
+import { Image, Text, TouchableOpacity, View } from "react-native";
 
-// Criei um tipo de props para incluir uma função de clique no ícone
 type ProfileProps = Omit<User, "password" | "id" | "updatedAt"> & {
-  /** Função a ser chamada ao pressionar o ícone */
-  onPressIcon?: () => void;
+  handleShowModal: () => void;
 };
 
 export default function Profile({
@@ -17,7 +14,7 @@ export default function Profile({
   email,
   image,
   createdAt,
-  onPressIcon,
+  handleShowModal,
 }: ProfileProps): React.JSX.Element {
   const creationDate = formatDate(createdAt);
 
@@ -35,7 +32,7 @@ export default function Profile({
         <Text style={styles.date}>Membro desde: {creationDate}</Text>
       </View>
 
-      <TouchableOpacity onPress={onPressIcon} style={styles.iconButton}>
+      <TouchableOpacity onPress={handleShowModal} style={styles.iconButton}>
         <Feather name="edit" size={24} color={theme.colors.primary} />
       </TouchableOpacity>
     </View>
