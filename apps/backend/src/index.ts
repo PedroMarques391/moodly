@@ -1,6 +1,7 @@
 import fastifyJwt from "@fastify/jwt";
 import fastify, { FastifyInstance } from "fastify";
 import userController from "./controller/user.controller";
+import { errorHandlerPlugin } from "./pluguins/error.handler";
 
 const server: FastifyInstance = fastify();
 
@@ -9,6 +10,8 @@ const port: number = 3000;
 server.register(fastifyJwt, {
   secret: process.env.JWT_SECRET,
 });
+
+server.register(errorHandlerPlugin);
 
 server.register(
   async function (app: FastifyInstance) {
