@@ -5,6 +5,8 @@ import { getItem } from "@/utils/storage";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { router, Tabs } from "expo-router";
 import React, { useEffect } from "react";
+import { View } from "react-native";
+import { ActivityIndicator } from "react-native-paper";
 
 export default function HomeLayout() {
   const { user } = useAuthStore();
@@ -13,19 +15,23 @@ export default function HomeLayout() {
   useEffect(() => {
     const fetch = async () => {
       const token = await getItem("token");
-
-      await getUser();
       if (!token) {
         router.replace("/(auth)/auth");
       }
+
+      await getUser();
     };
 
     fetch();
   }, [getUser]);
 
-  console.log(user);
-
-  if (!user) return null;
+  if (user === null) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" color={theme.colors.primary} />
+      </View>
+    );
+  }
 
   return (
     <Tabs
