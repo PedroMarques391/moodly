@@ -1,7 +1,7 @@
 import fastifyJwt from "@fastify/jwt";
 import fastify, { FastifyInstance } from "fastify";
 import userController from "./controller/user.controller";
-import { errorHandlerPlugin } from "./pluguins/error.handler";
+import { errorHandlerPlugin } from "./plugins/error.handler";
 
 const server: FastifyInstance = fastify();
 
