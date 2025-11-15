@@ -24,11 +24,11 @@ export default function Settings() {
         handleShowModal={handleShowModal}
       />
       <Modal
-        visible={showModal}
-        onDismiss={handleShowModal}
         name={user.name}
         email={user.email}
         image={user.image}
+        visible={showModal}
+        onDismiss={handleShowModal}
       />
     </View>
   );
