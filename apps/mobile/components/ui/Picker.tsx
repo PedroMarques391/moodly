@@ -1,8 +1,9 @@
 import { picker } from "@/styles/picker.styles";
+import { theme } from "@/theme/theme";
 import { Picker as NativePicker } from "@react-native-picker/picker";
 import { Controller } from "react-hook-form";
 import { Platform, View } from "react-native";
-import { HelperText, Text, useTheme } from "react-native-paper";
+import { HelperText, Text } from "react-native-paper";
 
 type PickerProps = {
   control: any;
@@ -19,13 +20,11 @@ export default function Picker({
   items,
   formError,
 }: PickerProps): React.JSX.Element {
-  const theme = useTheme();
-
   return (
     <View style={picker.container}>
       <Text
         style={{
-          color: theme.colors.onSurfaceVariant,
+          color: theme.colors.textPrimary,
           fontWeight: "600",
           marginBottom: 6,
           fontSize: 14,
@@ -51,10 +50,12 @@ export default function Picker({
               mode="dropdown"
               style={[
                 picker.picker,
-                Platform.OS === "android" && { color: theme.colors.onSurface },
+                Platform.OS === "android" && {
+                  color: theme.colors.textPrimary,
+                },
               ]}
-              dropdownIconColor={theme.colors.onSurfaceVariant}
-              itemStyle={{ fontSize: 16, color: theme.colors.onSurface }}
+              dropdownIconColor={theme.colors.primary}
+              itemStyle={{ fontSize: 16, color: theme.colors.primary }}
             >
               {items.map((item) => (
                 <NativePicker.Item
@@ -63,8 +64,8 @@ export default function Picker({
                   value={item.value}
                   color={
                     item.value === ""
-                      ? theme.colors.onSurfaceDisabled
-                      : theme.colors.onSurface
+                      ? theme.colors.textSecondary
+                      : theme.colors.textPrimary
                   }
                   style={{ fontSize: 14 }}
                 />

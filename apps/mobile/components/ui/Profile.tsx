@@ -1,6 +1,6 @@
 import { profile } from "@/styles/profile.styles";
 import { theme } from "@/theme/theme";
-import formatDate from "@/utils/formatDate";
+import { formatDate } from "@/utils/formatDate";
 import { Feather } from "@expo/vector-icons";
 import { User } from "@moodly/core";
 import { Text, TouchableOpacity, View } from "react-native";

@@ -1,11 +1,12 @@
 import { useRequests } from "@/hooks/useRequests";
 import { useAuthStore } from "@/store/auth.store";
 import { modal } from "@/styles/modal.styles";
+import { formatDate, formatTime } from "@/utils/formatDate";
 import { UpdateData, updateSchema } from "@/validations/update.schema";
 import { Feather } from "@expo/vector-icons";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { User } from "@moodly/core";
-import React from "react";
+import React, { useEffect } from "react";
 import { useForm } from "react-hook-form";
 import { KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
 import {
@@ -36,6 +37,7 @@ export default function Modal({
     control,
     handleSubmit,
     formState: { errors },
+    reset,
   } = useForm<UpdateData>({
     resolver: zodResolver(updateSchema),
     mode: "onSubmit",
@@ -49,12 +51,29 @@ export default function Modal({
     },
   });
 
+  useEffect(() => {
+    reset({
+      name: user.name,
+      bio: user.bio ?? "",
+      triggers: user.triggers ?? "",
+      goals: user.goals ?? "",
+      copingStrategies: user.copingStrategies ?? "",
+      baselineMood: user.baselineMood ?? "neutral",
+    });
+  }, [user, reset]);
+
   async function handleUpdate(data: UpdateData) {
     const result = await updateUser(user.id, data);
     if (result.success) {
       onDismiss();
     }
   }
+
+  const lastUpdated =
+    "Última atualização: " +
+    formatDate(user.updatedAt) +
+    " às " +
+    formatTime(user.updatedAt);
 
   return (
     <Portal>
@@ -70,6 +89,10 @@ export default function Modal({
         >
           <Text variant="titleLarge" style={modal.title}>
             Editar Perfil
+          </Text>
+
+          <Text variant="titleSmall" style={modal.subtitle}>
+            {lastUpdated}
           </Text>
 
           <Feather
