@@ -1,5 +1,6 @@
 import Login from "@/components/screens/Login";
 import SignIn from "@/components/screens/SignIn";
+import { auth } from "@/styles/auth.styles";
 import { useState } from "react";
 import {
   Image,
@@ -10,24 +11,22 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import styles from "./auth.styles";
 
 const AuthPage = (): React.JSX.Element => {
   const [screen, setScreen] = useState<"signin" | "login">("signin");
 
   return (
-    <>
+    <View style={auth.container}>
       <KeyboardAvoidingView
-        style={{ flex: 1 }}
+        style={{ flexShrink: 1 }}
         behavior={Platform.OS === "ios" ? "padding" : "height"}
       >
         <ScrollView
-          contentContainerStyle={{ flexGrow: 1 }}
           keyboardShouldPersistTaps="handled"
           showsVerticalScrollIndicator={false}
         >
-          <View style={styles.container}>
-            <View style={styles.logoContainer}>
+          <View style={auth.container}>
+            <View style={auth.logoContainer}>
               <Image
                 source={require("../../assets/logo3.png")}
                 style={{ width: "100%", height: "100%" }}
@@ -39,16 +38,18 @@ const AuthPage = (): React.JSX.Element => {
         </ScrollView>
       </KeyboardAvoidingView>
       <TouchableOpacity
-        style={styles.switchButton}
-        onPress={() => setScreen(screen === "login" ? "signin" : "login")}
+        style={auth.switchButton}
+        onPress={() =>
+          setScreen((prev) => (prev === "login" ? "signin" : "login"))
+        }
       >
-        <Text style={styles.switchText}>
+        <Text style={auth.switchText}>
           {screen === "login"
             ? "Não tem conta? Crie em 1 minuto!"
             : "Já tem conta? Fazer login"}
         </Text>
       </TouchableOpacity>
-    </>
+    </View>
   );
 };
 
