@@ -25,6 +25,11 @@ export const modal = StyleSheet.create({
   title: {
     fontSize: 22,
     fontWeight: "bold",
+    marginBottom: 5,
+    textAlign: "center",
+  },
+  subtitle: {
+    fontSize: 16,
     marginBottom: 16,
     textAlign: "center",
   },

@@ -8,4 +8,13 @@ function formatDate(date: Date): string {
   return formatedDate;
 }
 
-export default formatDate;
+function formatTime(date: Date): string {
+  const formatedDate = new Date(date).toLocaleTimeString("pt-BR", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+
+  return formatedDate;
+}
+
+export { formatDate, formatTime };
