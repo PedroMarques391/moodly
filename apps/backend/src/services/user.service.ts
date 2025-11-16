@@ -55,10 +55,9 @@ class UserService {
   }
 
   async update(id: string, user: UpdateUser): Promise<void> {
-    const currentUser = await this.userRepository.findById(id);
-    if (!currentUser) throw new Error("USER_NOT_FOUND");
-    const updatedUser = { ...currentUser, ...user };
-    await this.userRepository.update(id, updatedUser);
+    const userExists = await this.userRepository.findById(id);
+    if (!userExists) throw new Error("USER_NOT_FOUND");
+    await this.userRepository.update(id, user);
     return;
   }
 }
