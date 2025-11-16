@@ -1,5 +1,5 @@
 import useAnimated from "@/hooks/useAnimated";
-import { useAuth } from "@/hooks/useAuth";
+import { useRequests } from "@/hooks/useRequests";
 import { useAuthStore } from "@/store/auth.store";
 import { LoginData, loginScheme } from "@/validations/login.scheme";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -15,7 +15,7 @@ const Login = (): React.JSX.Element => {
   const [error, setError] = useState<string | undefined>(undefined);
   const { animatedStyle } = useAnimated("fadeInZoom");
   const { isLoading } = useAuthStore();
-  const { login } = useAuth();
+  const { login } = useRequests();
   const router = useRouter();
   const {
     control,
