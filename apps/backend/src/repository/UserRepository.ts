@@ -2,7 +2,7 @@ import { CreateUser, Payload, User, UserRepositoryModel } from "@moodly/core";
 import { prisma } from "../database/initialize";
 
 export class UserRepository implements UserRepositoryModel {
-  async findByEmail(email: string) {
+  async findByEmail(email: string): Promise<User | null> {
     return prisma.users.findUnique({ where: { email } });
   }
   async createUser({ name, email, password }: CreateUser): Promise<Payload> {
@@ -24,10 +24,13 @@ export class UserRepository implements UserRepositoryModel {
   }
 
   async findById(id: string): Promise<User | null> {
-    throw new Error("Method not implemented.");
+    return prisma.users.findUnique({ where: { id } });
   }
 
-  async update(id: string, user: Partial<User>): Promise<void> {
-    throw new Error("Method not implemented.");
+  async update(id: string, user: User): Promise<void> {
+    await prisma.users.update({
+      where: { id },
+      data: user,
+    });
   }
 }

@@ -49,13 +49,16 @@ class UserService {
     const user = await this.userRepository.findByEmail(email);
     if (!user) throw new Error("USER_NOT_FOUND");
     return {
-      id: user.id,
-      email: user.email,
-      name: user.name,
-      image: user.image,
-      createdAt: user.createdAt,
-      updatedAt: user.updatedAt,
+      ...user,
     };
+  }
+
+  async update(id: string, user: Partial<User>): Promise<void> {
+    const existing = await this.userRepository.findById(id);
+    if (!existing) throw new Error("USER_NOT_FOUND");
+    const updetedUser = { ...existing, ...user };
+    await this.userRepository.update(id, updetedUser);
+    return;
   }
 }
 
