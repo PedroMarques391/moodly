@@ -1,4 +1,4 @@
-import { CreateUser, Payload, User } from "./UserModel";
+import { User, CreateUser, Payload } from "./user";
 
 export default interface UserRepositoryModel {
   findByEmail(email: string): Promise<User | null>;

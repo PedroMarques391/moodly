@@ -1,4 +1,11 @@
-import { CreateUser, LoginUser, Payload, User } from "./UserModel";
+import { CreateUser, LoginUser, Payload, UpdateUser, User } from "./user";
 import UserRepositoryModel from "./UserRepositoryModel";
 
-export { CreateUser, LoginUser, Payload, User, UserRepositoryModel };
+export {
+  CreateUser,
+  LoginUser,
+  Payload,
+  UpdateUser,
+  User,
+  UserRepositoryModel,
+};
