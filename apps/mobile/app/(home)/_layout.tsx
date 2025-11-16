@@ -1,4 +1,4 @@
-import { useAuth } from "@/hooks/useAuth";
+import { useRequests } from "@/hooks/useRequests";
 import { useAuthStore } from "@/store/auth.store";
 import { theme } from "@/theme/theme";
 import { getItem } from "@/utils/storage";
@@ -10,7 +10,7 @@ import { ActivityIndicator } from "react-native-paper";
 
 export default function HomeLayout() {
   const { user } = useAuthStore();
-  const { getUser } = useAuth();
+  const { getUser } = useRequests();
 
   useEffect(() => {
     const fetch = async () => {
@@ -18,14 +18,15 @@ export default function HomeLayout() {
       if (!token) {
         router.replace("/(auth)/auth");
       }
-
-      await getUser();
+      if (!user) {
+        await getUser();
+      }
     };
 
     fetch();
-  }, [getUser]);
+  }, [getUser, user]);
 
-  if (user === null) {
+  if (!user) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
         <ActivityIndicator size="large" color={theme.colors.primary} />
