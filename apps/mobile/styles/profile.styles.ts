@@ -9,6 +9,7 @@ export const profile = StyleSheet.create({
     padding: 16,
     borderBottomLeftRadius: 16,
     borderBottomRightRadius: 16,
+    gap: 12,
   },
   textContainer: {
     flex: 1,

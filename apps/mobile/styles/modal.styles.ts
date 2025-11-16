@@ -33,14 +33,7 @@ export const modal = StyleSheet.create({
     alignItems: "center",
     gap: 14,
   },
-  profileImage: {
-    height: 100,
-    width: 100,
-    borderRadius: 50,
-    marginBottom: 10,
-    borderWidth: 2,
-    borderColor: "#EEEEEE",
-  },
+
   buttonContainer: {
     marginTop: 16,
     width: "100%",
