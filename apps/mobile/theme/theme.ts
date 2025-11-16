@@ -22,7 +22,7 @@ export const theme = {
     border: "#E2E8F0",
     shadow: "rgba(0, 0, 0, 0.08)",
 
-    error: "#EF4444",
+    error: "#ff0000ff",
     success: "#22C55E",
   },
   spacing: {
