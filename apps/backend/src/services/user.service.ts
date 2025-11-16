@@ -2,6 +2,7 @@ import {
   CreateUser,
   LoginUser,
   Payload,
+  UpdateUser,
   User,
   UserRepositoryModel,
 } from "@moodly/core";
@@ -53,7 +54,7 @@ class UserService {
     };
   }
 
-  async update(id: string, user: Partial<User>): Promise<void> {
+  async update(id: string, user: UpdateUser): Promise<void> {
     const currentUser = await this.userRepository.findById(id);
     if (!currentUser) throw new Error("USER_NOT_FOUND");
     const updatedUser = { ...currentUser, ...user };

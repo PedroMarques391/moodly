@@ -1,4 +1,4 @@
-import { CreateUser, LoginUser, User } from "@moodly/core";
+import { CreateUser, LoginUser, UpdateUser, User } from "@moodly/core";
 import { FastifyInstance, FastifyReply } from "fastify";
 import { authMiddleware } from "../middlewares/auth.middleware";
 import userService from "../services/user.service";
@@ -45,7 +45,7 @@ export default function userController(fastify: FastifyInstance) {
     }
   );
 
-  fastify.put<{ Body: Partial<User>; Params: Pick<User, "id"> }>(
+  fastify.put<{ Body: UpdateUser; Params: Pick<User, "id"> }>(
     "/:id",
     { preHandler: authMiddleware },
     async (req, reply: FastifyReply) => {
