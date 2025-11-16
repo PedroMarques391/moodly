@@ -1,10 +1,11 @@
 import IUseAuth from "@/interfaces/useAuth";
 import { useAuthStore } from "@/store/auth.store";
 import decodeToken from "@/utils/decotePayload";
-import { getItem, saveItem } from "@/utils/storage";
+import { getItem, removeItem, saveItem } from "@/utils/storage";
+import { User } from "@moodly/core";
 import { useCallback } from "react";
 
-export const useAuth = (): IUseAuth => {
+export const useRequests = (): IUseAuth => {
   const { setError, setIsLoading, setUser } = useAuthStore.getState();
 
   const getUser = useCallback(async () => {
@@ -78,7 +79,7 @@ export const useAuth = (): IUseAuth => {
   }
 
   async function logout() {
-    await getItem("token");
+    await removeItem("token");
     setUser(null);
   }
 
@@ -101,7 +102,7 @@ export const useAuth = (): IUseAuth => {
 
       const data = await response.json();
       await saveItem("token", data.token);
-      await await getUser();
+      await getUser();
       return { success: true };
     } catch (error: any) {
       setError(error.message);
@@ -111,5 +112,37 @@ export const useAuth = (): IUseAuth => {
     }
   }
 
-  return { signIn, getUser, logout, login };
+  async function updateUser(id: string, data: Partial<User>) {
+    setIsLoading(true);
+    try {
+      const token = await getItem("token");
+
+      const response = await fetch(
+        `http://192.168.2.59:3000/api/v1/users/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(data),
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error("Falha ao atualizar o perfil.");
+      }
+
+      await getUser();
+      return { success: true };
+    } catch (error: any) {
+      console.error("Falha ao atualizar:", error);
+      setError(error.message);
+      return { success: false, error: error.message };
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  return { signIn, getUser, logout, login, updateUser };
 };
