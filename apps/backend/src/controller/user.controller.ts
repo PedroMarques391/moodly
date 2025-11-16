@@ -44,4 +44,19 @@ export default function userController(fastify: FastifyInstance) {
       }
     }
   );
+
+  fastify.put<{ Body: Partial<User>; Params: Pick<User, "id"> }>(
+    "/:id",
+    { preHandler: authMiddleware },
+    async (req, reply: FastifyReply) => {
+      const data = req.body;
+      const { id } = req.params;
+      try {
+        await userService.update(id, data);
+        reply.send({ message: "User updated" }).code(200);
+      } catch (error) {
+        reply.send(error).code(400);
+      }
+    }
+  );
 }
