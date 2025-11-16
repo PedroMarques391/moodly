@@ -1,7 +1,7 @@
 import { theme } from "@/theme/theme";
 import { StyleSheet } from "react-native";
 
-export const styles = StyleSheet.create({
+export const profile = StyleSheet.create({
   card: {
     flexDirection: "row",
     alignItems: "center",
@@ -9,13 +9,6 @@ export const styles = StyleSheet.create({
     padding: 16,
     borderBottomLeftRadius: 16,
     borderBottomRightRadius: 16,
-  },
-  image: {
-    width: 50,
-    height: 50,
-    borderRadius: 25,
-    marginRight: 12,
-    backgroundColor: "#eee",
   },
   textContainer: {
     flex: 1,
