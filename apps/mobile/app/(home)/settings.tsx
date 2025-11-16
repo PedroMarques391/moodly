@@ -23,13 +23,7 @@ export default function Settings() {
         createdAt={user.createdAt}
         handleShowModal={handleShowModal}
       />
-      <Modal
-        name={user.name}
-        email={user.email}
-        image={user.image}
-        visible={showModal}
-        onDismiss={handleShowModal}
-      />
+      <Modal user={user} visible={showModal} onDismiss={handleShowModal} />
     </View>
   );
 }
