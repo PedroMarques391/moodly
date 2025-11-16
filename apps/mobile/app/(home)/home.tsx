@@ -1,4 +1,4 @@
-import { useAuth } from "@/hooks/useAuth";
+import { useRequests } from "@/hooks/useRequests";
 import { useAuthStore } from "@/store/auth.store";
 import styles from "@/styles/home.styles";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
@@ -8,7 +8,7 @@ import { Card } from "react-native-paper";
 
 export default function Home(): React.JSX.Element {
   const { user } = useAuthStore();
-  const { logout } = useAuth();
+  const { logout } = useRequests();
   const hour: number = new Date().getHours();
 
   const greeting = useMemo(() => {
