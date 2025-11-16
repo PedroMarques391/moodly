@@ -9,7 +9,7 @@ import bycrypt from "bcrypt";
 import { UserRepository } from "../repository/UserRepository";
 
 class UserService {
-  private userRepository: Partial<UserRepositoryModel>;
+  private userRepository: UserRepositoryModel;
   constructor() {
     this.userRepository = new UserRepository();
   }
@@ -54,10 +54,10 @@ class UserService {
   }
 
   async update(id: string, user: Partial<User>): Promise<void> {
-    const existing = await this.userRepository.findById(id);
-    if (!existing) throw new Error("USER_NOT_FOUND");
-    const updetedUser = { ...existing, ...user };
-    await this.userRepository.update(id, updetedUser);
+    const currentUser = await this.userRepository.findById(id);
+    if (!currentUser) throw new Error("USER_NOT_FOUND");
+    const updatedUser = { ...currentUser, ...user };
+    await this.userRepository.update(id, updatedUser);
     return;
   }
 }
