@@ -1,4 +1,6 @@
-interface IUseAuth {
+import { User } from "@moodly/core";
+
+interface IUseRequest {
   logout: () => Promise<void>;
   login: (
     email: string,
@@ -10,6 +12,10 @@ interface IUseAuth {
     password: string
   ) => Promise<{ success: boolean; error?: string }>;
   getUser: () => Promise<void>;
+  updateUser: (
+    id: string,
+    data: Partial<User>
+  ) => Promise<{ success: boolean; error?: string }>;
 }
 
-export default IUseAuth;
+export default IUseRequest;
