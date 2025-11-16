@@ -1,11 +1,12 @@
-import { styles } from "@/styles/profile.styles";
+import { profile } from "@/styles/profile.styles";
 import { theme } from "@/theme/theme";
 import formatDate from "@/utils/formatDate";
 import { Feather } from "@expo/vector-icons";
 import { User } from "@moodly/core";
-import { Image, Text, TouchableOpacity, View } from "react-native";
+import { Text, TouchableOpacity, View } from "react-native";
+import { Avatar } from "react-native-paper";
 
-type ProfileProps = Omit<User, "password" | "id" | "updatedAt"> & {
+type ProfileProps = Pick<User, "name" | "email" | "image" | "createdAt"> & {
   handleShowModal: () => void;
 };
 
@@ -19,20 +20,19 @@ export default function Profile({
   const creationDate = formatDate(createdAt);
 
   return (
-    <View style={styles.card}>
-      <Image source={{ uri: image }} style={styles.image} />
-
-      <View style={styles.textContainer}>
-        <Text style={styles.name} numberOfLines={1}>
+    <View style={profile.card}>
+      <Avatar.Image size={64} source={{ uri: image }} />
+      <View style={profile.textContainer}>
+        <Text style={profile.name} numberOfLines={1}>
           {name}
         </Text>
-        <Text style={styles.email} numberOfLines={1}>
+        <Text style={profile.email} numberOfLines={1}>
           {email}
         </Text>
-        <Text style={styles.date}>Membro desde: {creationDate}</Text>
+        <Text style={profile.date}>Membro desde: {creationDate}</Text>
       </View>
 
-      <TouchableOpacity onPress={handleShowModal} style={styles.iconButton}>
+      <TouchableOpacity onPress={handleShowModal} style={profile.iconButton}>
         <Feather name="edit" size={24} color={theme.colors.primary} />
       </TouchableOpacity>
     </View>
