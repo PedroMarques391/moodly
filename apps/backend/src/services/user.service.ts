@@ -1,8 +1,8 @@
 import {
-  CreateUser,
+  createUserDTO,
   LoginUser,
   Payload,
-  UpdateUser,
+  updateUserDTO,
   User,
   UserRepositoryModel,
 } from "@moodly/core";
@@ -14,7 +14,7 @@ class UserService {
   constructor() {
     this.userRepository = new UserRepository();
   }
-  async createUser({ name, email, password }: CreateUser) {
+  async createUser({ name, email, password }: createUserDTO) {
     const existing = await this.userRepository.findByEmail(email);
 
     if (existing) throw new Error("USER_ALREADY_EXISTS");
@@ -54,7 +54,7 @@ class UserService {
     };
   }
 
-  async update(id: string, user: UpdateUser): Promise<void> {
+  async update(id: string, user: updateUserDTO): Promise<void> {
     const userExists = await this.userRepository.findById(id);
     if (!userExists) throw new Error("USER_NOT_FOUND");
     await this.userRepository.update(id, user);
