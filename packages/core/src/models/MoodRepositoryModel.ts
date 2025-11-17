@@ -1,5 +1,4 @@
-import { UpdateMoodDTO } from "../../dist";
-import { CreateMoodDTO } from "../dto";
+import { CreateMoodDTO, UpdateMoodDTO } from "../dto";
 import { Mood } from "./mood/mood";
 
 export default interface MoodRepositoryModel {
