@@ -1,11 +1,16 @@
-import { CreateUser, Payload, User, UserRepositoryModel } from "@moodly/core";
+import {
+  createUserDTO,
+  Payload,
+  User,
+  UserRepositoryModel,
+} from "@moodly/core";
 import { prisma } from "../database/initialize";
 
 export class UserRepository implements UserRepositoryModel {
   async findByEmail(email: string): Promise<User | null> {
     return prisma.users.findUnique({ where: { email } });
   }
-  async createUser({ name, email, password }: CreateUser): Promise<Payload> {
+  async createUser({ name, email, password }: createUserDTO): Promise<Payload> {
     const user = await prisma.users.create({
       data: {
         name,
