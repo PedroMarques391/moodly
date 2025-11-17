@@ -31,4 +31,19 @@ model Users {
   copingStrategies String?
   goals            String?
   updatedAt        DateTime      @updatedAt
+  moods            Mood[]
+}
+
+model Mood {
+  id          String       @id @default(cuid())
+  rating      BaselineMood
+  dateLogged  DateTime
+  description String
+  emoji       String
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  userId      String
+  user        Users        @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@map("moods")
 }
