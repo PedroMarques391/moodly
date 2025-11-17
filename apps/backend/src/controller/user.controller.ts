@@ -1,11 +1,11 @@
-import { CreateUser, LoginUser, UpdateUser, User } from "@moodly/core";
+import { createUserDTO, LoginUser, updateUserDTO, User } from "@moodly/core";
 import { FastifyInstance, FastifyReply } from "fastify";
 import { authMiddleware } from "../middlewares/auth.middleware";
 import userService from "../services/user.service";
 
 export default function userController(fastify: FastifyInstance) {
   fastify.post<{
-    Body: CreateUser;
+    Body: createUserDTO;
   }>("/", async (req, reply) => {
     const { name, email, password } = req.body;
 
@@ -45,7 +45,7 @@ export default function userController(fastify: FastifyInstance) {
     }
   );
 
-  fastify.put<{ Body: UpdateUser; Params: Pick<User, "id"> }>(
+  fastify.put<{ Body: updateUserDTO; Params: Pick<User, "id"> }>(
     "/:id",
     { preHandler: authMiddleware },
     async (req, reply: FastifyReply) => {
