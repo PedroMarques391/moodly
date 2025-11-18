@@ -52,8 +52,7 @@ const styles = StyleSheet.create({
     fontWeight: "600",
   },
   timeline: {
-    marginBottom: 30,
-    paddingBottom: 20,
+    marginBottom: 20,
   },
   sectionTitle: {
     fontSize: 18,
@@ -63,7 +62,8 @@ const styles = StyleSheet.create({
   },
   emojiRow: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    gap: 20,
+    justifyContent: "center",
   },
   emojiBubble: {
     backgroundColor: theme.colors.primaryLight,
@@ -80,7 +80,7 @@ const styles = StyleSheet.create({
     marginTop: "auto",
     borderTopWidth: 1,
     borderTopColor: "#eee",
-    paddingTop: 20,
+    marginBottom: 20,
   },
   quote: {
     fontSize: 14,
