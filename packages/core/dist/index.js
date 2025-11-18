@@ -1,1 +1,18 @@
-"use strict";var p=Object.defineProperty;var f=Object.getOwnPropertyDescriptor;var d=Object.getOwnPropertyNames;var x=Object.prototype.hasOwnProperty;var M=(r,o,m,t)=>{if(o&&typeof o=="object"||typeof o=="function")for(let e of d(o))!x.call(r,e)&&e!==m&&p(r,e,{get:()=>o[e],enumerable:!(t=f(o,e))||t.enumerable});return r};var i=r=>M(p({},"__esModule",{value:!0}),r);var s={};module.exports=i(s);
+"use strict";
+var __defProp = Object.defineProperty;
+var __getOwnPropDesc = Object.getOwnPropertyDescriptor;
+var __getOwnPropNames = Object.getOwnPropertyNames;
+var __hasOwnProp = Object.prototype.hasOwnProperty;
+var __copyProps = (to, from, except, desc) => {
+  if (from && typeof from === "object" || typeof from === "function") {
+    for (let key of __getOwnPropNames(from))
+      if (!__hasOwnProp.call(to, key) && key !== except)
+        __defProp(to, key, { get: () => from[key], enumerable: !(desc = __getOwnPropDesc(from, key)) || desc.enumerable });
+  }
+  return to;
+};
+var __toCommonJS = (mod) => __copyProps(__defProp({}, "__esModule", { value: true }), mod);
+
+// src/index.ts
+var index_exports = {};
+module.exports = __toCommonJS(index_exports);
