@@ -17,7 +17,7 @@ const paperTheme = {
     placeholder: moodlyTheme.colors.textSecondary,
     error: moodlyTheme.colors.error,
   },
-  roundness: moodlyTheme.radius.md,
+  roundness: moodlyTheme.radius.sm,
 };
 
 export default function RootLayout() {
