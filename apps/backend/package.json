@@ -20,6 +20,8 @@
   },
   "dependencies": {
     "@fastify/jwt": "^10.0.0",
+    "@fastify/swagger": "^9.6.1",
+    "@fastify/swagger-ui": "^5.2.3",
     "@moodly/core": "*",
     "@prisma/client": "^6.19.0",
     "bcrypt": "^6.0.0",
