@@ -1,10 +1,12 @@
 import { createUserDTO, LoginUser, updateUserDTO } from "@moodly/core";
 import { FastifyInstance, FastifyReply } from "fastify";
+import { makeUserService } from "../factories/user.factory";
 import { authMiddleware } from "../middlewares/auth.middleware";
-import userService from "../services/user.service";
 import { Request } from "../types/IRequest";
 
 export default function userController(fastify: FastifyInstance) {
+  const userService = makeUserService();
+
   fastify.post<{
     Body: createUserDTO;
   }>("/", async (req, reply) => {

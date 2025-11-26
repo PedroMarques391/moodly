@@ -1,8 +1,9 @@
 import { CreateMoodDTO } from "@moodly/core";
 import { FastifyInstance } from "fastify";
-import moodService from "../services/mood.service";
+import { makeMoodService } from "../factories/mood.factory";
 
 export default function moodController(fastify: FastifyInstance) {
+  const moodService = makeMoodService();
   fastify.post<{ Body: CreateMoodDTO; Params: { id: string } }>(
     "/:id",
     async (req, reply) => {
