@@ -4,13 +4,9 @@ import {
   MoodRepositoryModel,
   UpdateMoodDTO,
 } from "@moodly/core";
-import { MoodRepository } from "../repository/MoodRepository";
 
 export class MoodService {
-  private moodRepository: MoodRepositoryModel;
-  constructor() {
-    this.moodRepository = new MoodRepository();
-  }
+  constructor(private readonly moodRepository: MoodRepositoryModel) {}
 
   async createMood(userId: string, data: CreateMoodDTO): Promise<void> {
     if (!userId) throw new Error("USER_NOT_FOUND");
@@ -41,7 +37,3 @@ export class MoodService {
     await this.moodRepository.updateMood(id, data);
   }
 }
-
-const moodService = new MoodService();
-
-export default moodService;

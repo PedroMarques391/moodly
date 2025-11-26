@@ -7,13 +7,9 @@ import {
   UserRepositoryModel,
 } from "@moodly/core";
 import bycrypt from "bcrypt";
-import { UserRepository } from "../repository/UserRepository";
 
-class UserService {
-  private userRepository: UserRepositoryModel;
-  constructor() {
-    this.userRepository = new UserRepository();
-  }
+export class UserService {
+  constructor(private readonly userRepository: UserRepositoryModel) {}
   async createUser({ name, email, password }: createUserDTO) {
     const existing = await this.userRepository.findByEmail(email);
 
@@ -36,8 +32,8 @@ class UserService {
   async loginUser({ email, password }: LoginUser): Promise<Payload> {
     const user = await this.userRepository.findByEmail(email);
     if (!user) throw new Error("USER_OR_PASSWORD_INCORRECT");
-    const descriptedPassword = await bycrypt.compare(password, user.password);
-    if (!descriptedPassword) throw new Error("USER_OR_PASSWORD_INCORRECT");
+    const isValidPassword = await bycrypt.compare(password, user.password);
+    if (!isValidPassword) throw new Error("USER_OR_PASSWORD_INCORRECT");
 
     return {
       id: user.id,
@@ -61,7 +57,3 @@ class UserService {
     return;
   }
 }
-
-const userService = new UserService();
-
-export default userService;
