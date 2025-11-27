@@ -1,19 +1,14 @@
-import fastifyJwt from "@fastify/jwt";
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUi from "@fastify/swagger-ui";
 import fastify, { FastifyInstance } from "fastify";
 import moodController from "./controller/mood.controller";
 import userController from "./controller/user.controller";
-import { authMiddleware } from "./middlewares/auth.middleware";
+import authPlugin from "./plugins/auth.plugin";
 import { errorHandlerPlugin } from "./plugins/error.handler";
 
 const server: FastifyInstance = fastify();
 
 const port: number = 3000;
-
-server.register(fastifyJwt, {
-  secret: process.env.JWT_SECRET,
-});
 
 server.register(fastifySwagger, {
   openapi: {
@@ -29,15 +24,17 @@ server.register(errorHandlerPlugin);
 
 server.register(
   async function (app: FastifyInstance) {
+    await app.register(authPlugin);
     app.register(userController, { prefix: "/users" });
-    app.register(async function (protectedRouters: FastifyInstance) {
-      protectedRouters.addHook("onRequest", authMiddleware);
-      protectedRouters.register(moodController, { prefix: "/mood" });
+    app.register(async function (protectedApp: FastifyInstance) {
+      protectedApp.addHook("onRequest", app.authenticate);
+      protectedApp.register(moodController, { prefix: "/mood" });
     });
   },
   { prefix: "/api/v1" }
 );
 server.register(fastifySwaggerUi, { routePrefix: "/docs" });
+
 server.listen({ port: port, host: "0.0.0.0" }, (err, _) => {
   if (err) {
     console.error(err);
