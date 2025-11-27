@@ -1,8 +1,6 @@
 import { createUserDTO, LoginUser, updateUserDTO } from "@moodly/core";
-import { FastifyInstance, FastifyReply } from "fastify";
+import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { makeUserService } from "../factories/user.factory";
-import { authMiddleware } from "../middlewares/auth.middleware";
-import { Request } from "../types/IRequest";
 
 export default function userController(fastify: FastifyInstance) {
   const userService = makeUserService();
@@ -36,8 +34,8 @@ export default function userController(fastify: FastifyInstance) {
 
   fastify.get(
     "/profile",
-    { preHandler: authMiddleware },
-    async (req: Request, reply: FastifyReply) => {
+    { onRequest: [fastify.authenticate] },
+    async (req: FastifyRequest, reply: FastifyReply) => {
       const { email } = req.user;
 
       try {
@@ -51,8 +49,8 @@ export default function userController(fastify: FastifyInstance) {
 
   fastify.put<{ Body: updateUserDTO }>(
     "/profile",
-    { preHandler: authMiddleware },
-    async (req: Request, reply: FastifyReply) => {
+    { onRequest: [(req, reply) => fastify.authenticate(req, reply)] },
+    async (req: FastifyRequest, reply: FastifyReply) => {
       const data = req.body;
       const { id } = req.user;
       try {
