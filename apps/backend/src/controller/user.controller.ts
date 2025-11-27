@@ -10,8 +10,6 @@ export default function userController(fastify: FastifyInstance) {
   }>("/", async (req, reply) => {
     const { name, email, password } = req.body;
 
-    console.log(name, email, password);
-
     try {
       const payload = await userService.createUser({ name, email, password });
       const token = fastify.jwt.sign(payload);
