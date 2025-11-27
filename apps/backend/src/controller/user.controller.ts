@@ -49,7 +49,7 @@ export default function userController(fastify: FastifyInstance) {
 
   fastify.put<{ Body: updateUserDTO }>(
     "/profile",
-    { onRequest: [(req, reply) => fastify.authenticate(req, reply)] },
+    { onRequest: [fastify.authenticate] },
     async (req: FastifyRequest, reply: FastifyReply) => {
       const data = req.body;
       const { id } = req.user;
