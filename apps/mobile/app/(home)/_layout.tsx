@@ -1,41 +1,9 @@
-import { useUsers } from "@/hooks/useUser";
-import { useUserStore } from "@/store/user.store";
 import { theme } from "@/theme/theme";
-import { getItem } from "@/utils/storage";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
-import { router, Tabs } from "expo-router";
-import React, { useEffect } from "react";
-import { View } from "react-native";
-import { ActivityIndicator } from "react-native-paper";
+import { Tabs } from "expo-router";
+import React from "react";
 
 export default function HomeLayout() {
-  const { user } = useUserStore();
-  const { getUser } = useUsers();
-
-  useEffect(() => {
-    const fetch = async () => {
-      const token = await getItem("token");
-      if (!token) {
-        router.replace("/(auth)/auth");
-      }
-      if (!user) {
-        await getUser();
-      }
-    };
-
-    fetch();
-  }, [getUser, user]);
-
-  console.log("User in layout:", user);
-
-  if (!user) {
-    return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator size="large" color={theme.colors.primary} />
-      </View>
-    );
-  }
-
   return (
     <Tabs
       screenOptions={{
