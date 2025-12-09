@@ -24,6 +24,9 @@ export class MoodRepository implements MoodRepositoryModel {
       where: {
         userId,
       },
+      orderBy: {
+        createdAt: "desc",
+      },
     });
     return moods;
   }
