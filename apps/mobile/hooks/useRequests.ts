@@ -1,6 +1,5 @@
 import IUseAuth from "@/interfaces/useAuth";
 import { useAuthStore } from "@/store/auth.store";
-import decodeToken from "@/utils/decotePayload";
 import { getItem, removeItem, saveItem } from "@/utils/storage";
 import { User } from "@moodly/core";
 import { useCallback } from "react";
@@ -19,9 +18,8 @@ export const useRequests = (): IUseAuth => {
         throw new Error("Operation unauthorized");
       }
 
-      const payload = decodeToken(token);
       const response = await fetch(
-        `http://192.168.2.59:3000/api/v1/users/${payload?.email}`,
+        `http://192.168.2.59:3000/api/v1/users/profile`,
         {
           headers: {
             Authorization: `Bearer ${token}`,
@@ -118,7 +116,7 @@ export const useRequests = (): IUseAuth => {
       const token = await getItem("token");
 
       const response = await fetch(
-        `http://192.168.2.59:3000/api/v1/users/${id}`,
+        `http://192.168.2.59:3000/api/v1/users/profile`,
         {
           method: "PUT",
           headers: {
