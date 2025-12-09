@@ -2,11 +2,11 @@ import { BaselineMood } from "@moodly/core";
 
 const getMoodText = (rating: BaselineMood) => {
   const text = {
-    very_good: "Feliz",
-    good: "Calmo",
+    very_good: "Muito Bem",
+    good: "Bem",
     neutral: "Neutro",
-    low: "Triste",
-    very_low: "Com Raiva",
+    low: "Para Baixo",
+    very_low: "Triste",
   };
   return text[rating] || "Neutro";
 };

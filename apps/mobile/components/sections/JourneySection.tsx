@@ -1,4 +1,4 @@
-import { useRequests } from "@/hooks/useRequests";
+import { useUsers } from "@/hooks/useUser";
 import { globals } from "@/styles/global.styles";
 import { journey } from "@/styles/journey.styles";
 import { stringToArray } from "@/utils/stringToArray";
@@ -11,7 +11,7 @@ interface JourneySectionProps {
 }
 
 export default function JourneySection({ user }: JourneySectionProps) {
-  const { updateUser } = useRequests();
+  const { updateUser } = useUsers();
   const [bio, setBio] = useState<string>("");
   const theme = useTheme();
 

@@ -1,5 +1,5 @@
-import { useRequests } from "@/hooks/useRequests";
-import { useAuthStore } from "@/store/auth.store";
+import { useUsers } from "@/hooks/useUser";
+import { useUserStore } from "@/store/user.store";
 import { theme } from "@/theme/theme";
 import { getItem } from "@/utils/storage";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
@@ -9,8 +9,8 @@ import { View } from "react-native";
 import { ActivityIndicator } from "react-native-paper";
 
 export default function HomeLayout() {
-  const { user } = useAuthStore();
-  const { getUser } = useRequests();
+  const { user } = useUserStore();
+  const { getUser } = useUsers();
 
   useEffect(() => {
     const fetch = async () => {

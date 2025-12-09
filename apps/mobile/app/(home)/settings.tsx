@@ -5,8 +5,8 @@ import Input from "@/components/ui/Input";
 import ModalProfile from "@/components/ui/Modal";
 import Picker from "@/components/ui/Picker";
 import Profile from "@/components/ui/Profile";
-import { useRequests } from "@/hooks/useRequests";
-import { useAuthStore } from "@/store/auth.store";
+import { useUsers } from "@/hooks/useUser";
+import { useUserStore } from "@/store/user.store";
 import { settings } from "@/styles/settings.styles";
 import { theme } from "@/theme/theme";
 import { formatDate, formatTime } from "@/utils/formatDate";
@@ -18,8 +18,8 @@ import { ScrollView } from "react-native";
 import { Avatar, Button, Text } from "react-native-paper";
 
 export default function Settings() {
-  const { user } = useAuthStore();
-  const { logout: handleLogout, updateUser } = useRequests();
+  const { user } = useUserStore();
+  const { logout: handleLogout, updateUser } = useUsers();
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const {
