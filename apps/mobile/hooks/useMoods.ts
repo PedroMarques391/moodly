@@ -25,7 +25,6 @@ export default function useMoods() {
       }
 
       const data = await response.json();
-      console.log("Fetched moods:", data);
       setMood(data);
     } catch (error) {
       console.error("Error fetching moods:", error);
