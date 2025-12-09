@@ -1,8 +1,9 @@
+import Modal from "@/components/ui/Modal";
 import MoodCard from "@/components/ui/MoodCard";
 import { useAuthStore } from "@/store/auth.store";
 import styles from "@/styles/home.styles";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import React, { useEffect, useMemo, useRef } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   Animated,
   Easing,
@@ -15,6 +16,7 @@ import { Card } from "react-native-paper";
 
 export default function Home(): React.JSX.Element {
   const { user } = useAuthStore();
+  const [showModal, setShowModal] = useState(false);
   const hour: number = new Date().getHours();
 
   const greeting = useMemo(() => {
@@ -159,7 +161,11 @@ export default function Home(): React.JSX.Element {
         <Card mode="contained" style={styles.moodCard}>
           <Card.Content>
             <Text style={styles.cardTitle}>Seu humor de hoje</Text>
-            <TouchableOpacity activeOpacity={0.7} style={styles.moodButton}>
+            <TouchableOpacity
+              onPress={() => setShowModal(true)}
+              activeOpacity={0.7}
+              style={styles.moodButton}
+            >
               <Text style={styles.moodEmoji}>😄</Text>
               <Text style={styles.moodText}>Registrar emoção</Text>
             </TouchableOpacity>
@@ -248,6 +254,14 @@ export default function Home(): React.JSX.Element {
           <MoodCard key={index} mood={mood} variant="list" />
         ))}
       </ScrollView>
+
+      <Modal
+        visible={showModal}
+        onDismiss={() => setShowModal(false)}
+        title="Registrar Humor"
+      >
+        <Text>Conteúdo do modal de registrar humor</Text>
+      </Modal>
     </View>
   );
 }

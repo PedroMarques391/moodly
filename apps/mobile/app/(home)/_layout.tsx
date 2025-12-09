@@ -26,6 +26,8 @@ export default function HomeLayout() {
     fetch();
   }, [getUser, user]);
 
+  console.log("User in layout:", user);
+
   if (!user) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
