@@ -91,6 +91,11 @@ export default function Home(): React.JSX.Element {
     setShowCalendar(false);
   };
 
+  const handleCloseModal = () => {
+    setShowModal(false);
+    reset();
+  };
+
   return (
     <View style={styles.homeContainer}>
       <ScrollView
@@ -154,7 +159,7 @@ export default function Home(): React.JSX.Element {
 
       <Modal
         visible={showModal}
-        onDismiss={() => setShowModal(false)}
+        onDismiss={handleCloseModal}
         title="Registrar Humor"
         handleSubmit={handleSubmit(handleCreateMood)}
       >
