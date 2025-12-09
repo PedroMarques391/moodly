@@ -2,26 +2,60 @@ import { moodCard } from "@/styles/moodCard.styles";
 import { formatDate } from "@/utils/formatDate";
 import getMoodColor from "@/utils/getMoodColor";
 import getMoodText from "@/utils/getMoodText";
+import { Mood } from "@moodly/core";
 import { View } from "react-native";
-
 import { Text } from "react-native-paper";
+import { SkeletonItem } from "./Skeleton";
 
 type MoodCardProps = {
-  mood: any;
+  mood: Mood | null;
   variant: "list" | "grid";
   onPressMenu?: () => void;
+  isLoading: boolean;
 };
 
 export default function MoodCard({
   mood,
   variant,
   onPressMenu,
+  isLoading,
 }: MoodCardProps) {
+  if (isLoading && variant === "list") {
+    return (
+      <View
+        style={[
+          moodCard.listItemContainer,
+          { backgroundColor: "#F5F5F5", alignItems: "center" },
+        ]}
+      >
+        <SkeletonItem
+          width={40}
+          height={40}
+          borderRadius={20}
+          style={{ marginRight: 12 }}
+        />
+
+        <View
+          style={[moodCard.textContainer, { justifyContent: "center", gap: 6 }]}
+        >
+          <SkeletonItem width={120} height={20} />
+          <SkeletonItem width={180} height={14} />
+        </View>
+
+        <View style={moodCard.dateContainer}>
+          <SkeletonItem width={40} height={40} borderRadius={8} />
+        </View>
+      </View>
+    );
+  }
+
+  if (!mood) return null;
+
   const color = getMoodColor(mood.rating);
   const title = getMoodText(mood.rating);
-
-  const day = formatDate(mood.dateLogged).split("/")[0];
-  const month = formatDate(mood.dateLogged).split("/")[1];
+  const date = formatDate(mood.dateLogged).split("/");
+  const day = date[0];
+  const month = date[1];
 
   return (
     <>
@@ -41,7 +75,9 @@ export default function MoodCard({
           </View>
         </View>
       ) : (
-        <View>grid</View>
+        <View>
+          <Text>grid</Text>
+        </View>
       )}
     </>
   );
