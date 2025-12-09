@@ -1,7 +1,7 @@
-import { IAuthStore } from "@/interfaces/authStore";
+import { UserStore } from "@/interfaces/authStore";
 import { create } from "zustand";
 
-export const useAuthStore = create<IAuthStore>((set) => ({
+export const useUserStore = create<UserStore>((set) => ({
   user: null,
   isLoading: false,
   error: null,
