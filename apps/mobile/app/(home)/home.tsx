@@ -34,6 +34,12 @@ export default function Home(): React.JSX.Element {
   } = useForm<MoodData>({
     resolver: zodResolver(moodSchema),
     mode: "onSubmit",
+    defaultValues: {
+      rating: "neutral",
+      description: "",
+      emoji: "",
+      dateLogged: date,
+    },
   });
 
   useEffect(() => {
@@ -158,7 +164,6 @@ export default function Home(): React.JSX.Element {
           label="Humor"
           formError={errors.rating?.message}
           items={[
-            { label: "Selecione...", value: "" },
             { label: "Muito para baixo", value: "very_low" },
             { label: "Para baixo", value: "low" },
             { label: "Neutro", value: "neutral" },
