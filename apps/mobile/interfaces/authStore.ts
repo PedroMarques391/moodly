@@ -1,6 +1,6 @@
 import { User } from "@moodly/core";
 
-export interface IAuthStore {
+export interface UserStore {
   user: Omit<User, "password"> | User | null;
   setUser: (user: User | null) => Promise<void>;
   isLoading: boolean;
