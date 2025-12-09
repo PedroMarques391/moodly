@@ -1,79 +1,26 @@
-import { useRequests } from "@/hooks/useRequests";
 import { useAuthStore } from "@/store/auth.store";
 import { modal } from "@/styles/modal.styles";
-import { formatDate, formatTime } from "@/utils/formatDate";
-import { UpdateData, updateSchema } from "@/validations/update.schema";
 import { Feather } from "@expo/vector-icons";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { User } from "@moodly/core";
-import React, { useEffect } from "react";
-import { useForm } from "react-hook-form";
+import React from "react";
 import { KeyboardAvoidingView, Platform, ScrollView, View } from "react-native";
-import {
-  Avatar,
-  Button,
-  Modal as PaperModal,
-  Portal,
-  Text,
-} from "react-native-paper";
-import Input from "./Input";
-import Picker from "./Picker";
+import { Button, Modal as PaperModal, Portal, Text } from "react-native-paper";
 
 type ModalProps = {
   visible: boolean;
   onDismiss: () => void;
-  user: Omit<User, "password">;
+  children: React.ReactNode;
+  title: string;
+  handleSubmit?: () => void;
 };
 
 export default function Modal({
   visible,
   onDismiss,
-  user,
+  children,
+  title,
+  handleSubmit,
 }: ModalProps): React.JSX.Element {
-  const { updateUser } = useRequests();
   const { isLoading } = useAuthStore();
-
-  const {
-    control,
-    handleSubmit,
-    formState: { errors },
-    reset,
-  } = useForm<UpdateData>({
-    resolver: zodResolver(updateSchema),
-    mode: "onSubmit",
-    defaultValues: {
-      name: user.name,
-      bio: user.bio ?? "",
-      triggers: user.triggers ?? "",
-      goals: user.goals ?? "",
-      copingStrategies: user.copingStrategies ?? "",
-      baselineMood: user.baselineMood ?? "neutral",
-    },
-  });
-
-  useEffect(() => {
-    reset({
-      name: user.name,
-      bio: user.bio ?? "",
-      triggers: user.triggers ?? "",
-      goals: user.goals ?? "",
-      copingStrategies: user.copingStrategies ?? "",
-      baselineMood: user.baselineMood ?? "neutral",
-    });
-  }, [user, reset]);
-
-  async function handleUpdate(data: UpdateData) {
-    const result = await updateUser(user.id, data);
-    if (result.success) {
-      onDismiss();
-    }
-  }
-
-  const lastUpdated =
-    "Última atualização: " +
-    formatDate(user.updatedAt) +
-    " às " +
-    formatTime(user.updatedAt);
 
   return (
     <Portal>
@@ -88,11 +35,7 @@ export default function Modal({
           behavior={Platform.OS === "ios" ? "padding" : undefined}
         >
           <Text variant="titleLarge" style={modal.title}>
-            Editar Perfil
-          </Text>
-
-          <Text variant="titleSmall" style={modal.subtitle}>
-            {lastUpdated}
+            {title}
           </Text>
 
           <Feather
@@ -108,71 +51,13 @@ export default function Modal({
             keyboardShouldPersistTaps="handled"
             showsVerticalScrollIndicator={false}
           >
-            <Avatar.Image size={100} source={{ uri: user.image }} />
-
-            <Input
-              label="Nome"
-              name="name"
-              placeholder="Como quer ser chamado?"
-              control={control}
-              formError={errors.name?.message}
-            />
-
-            <Input
-              label="Bio"
-              name="bio"
-              placeholder="Conte algo sobre você"
-              control={control}
-              formError={errors.bio?.message}
-              multiline
-            />
-
-            <Input
-              label="Gatilhos"
-              name="triggers"
-              placeholder="Ex: estresse, barulho..."
-              control={control}
-              formError={errors.triggers?.message}
-              multiline
-            />
-
-            <Input
-              label="Objetivos"
-              name="goals"
-              placeholder="Ex: dormir melhor..."
-              control={control}
-              formError={errors.goals?.message}
-              multiline
-            />
-
-            <Input
-              label="Estratégias de enfrentamento"
-              name="copingStrategies"
-              placeholder="Ex: meditação, pausas..."
-              control={control}
-              formError={errors.copingStrategies?.message}
-              multiline
-            />
-
-            <Picker
-              control={control}
-              name="baselineMood"
-              label="Seu humor base"
-              items={[
-                { label: "Selecione...", value: "" },
-                { label: "Muito para baixo", value: "very_low" },
-                { label: "Para baixo", value: "low" },
-                { label: "Neutro", value: "neutral" },
-                { label: "Bem", value: "good" },
-                { label: "Muito bem", value: "very_good" },
-              ]}
-            />
+            {children}
           </ScrollView>
 
           <View style={modal.buttonContainer}>
             <Button
               mode="contained"
-              onPress={handleSubmit(handleUpdate)}
+              onPress={handleSubmit}
               style={modal.button}
               loading={isLoading}
               disabled={isLoading}
