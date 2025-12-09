@@ -1,204 +1,134 @@
+import { RecentMoods } from "@/components/sections/RecentMoods";
+import { Calendar } from "@/components/ui/Calendar";
+import Input from "@/components/ui/Input";
 import Modal from "@/components/ui/Modal";
-import MoodCard from "@/components/ui/MoodCard";
-import { useAuthStore } from "@/store/auth.store";
+import Picker from "@/components/ui/Picker";
+import useMoods from "@/hooks/useMoods";
+import { useMoodStore } from "@/store/mood.store";
+import { useUserStore } from "@/store/user.store";
 import styles from "@/styles/home.styles";
+import { formatDate } from "@/utils/formatDate";
+import { MoodData, moodSchema } from "@/validations/mood.scheme";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import React, { useEffect, useMemo, useRef, useState } from "react";
-import {
-  Animated,
-  Easing,
-  ScrollView,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
-import { Card } from "react-native-paper";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { DateTimePickerEvent } from "@react-native-community/datetimepicker";
+import React, { useEffect, useMemo, useState } from "react";
+import { useForm } from "react-hook-form";
+import { Animated, ScrollView, TouchableOpacity, View } from "react-native";
+import { Button, Card, Text } from "react-native-paper";
 
 export default function Home(): React.JSX.Element {
-  const { user } = useAuthStore();
+  const { user } = useUserStore();
+  const { getMoods, createMood } = useMoods();
+  const { mood: moods, isLoading } = useMoodStore();
+
   const [showModal, setShowModal] = useState(false);
-  const hour: number = new Date().getHours();
+  const [showCalendar, setShowCalendar] = useState(false);
+  const [date, setDate] = useState<Date>(new Date());
 
-  const greeting = useMemo(() => {
-    if (hour < 12) return "Bom dia";
-    if (hour < 18) return "Boa tarde";
-    return "Boa noite";
-  }, [hour]);
-
-  const moods = [
-    {
-      emoji: "😊",
-      rating: "good",
-      description: "Had a great day!",
-      createAt: new Date(),
-      dateLogged: new Date(),
-    },
-    {
-      emoji: "😐",
-      rating: "neutral",
-      description: "Feeling a bit down.",
-      createAt: new Date(),
-      dateLogged: new Date(),
-    },
-    {
-      emoji: "😢",
-      rating: "low",
-      description: "Feeling a bit down.",
-      createAt: new Date(),
-      dateLogged: new Date(),
-    },
-    {
-      emoji: "😡",
-      rating: "neutral",
-      description: "Got frustrated with work.",
-      createAt: new Date(),
-      dateLogged: new Date(),
-    },
-    {
-      emoji: "😡",
-      rating: "very_low",
-      description: "Got frustrated with work.",
-      createAt: new Date(),
-      dateLogged: new Date(),
-    },
-    {
-      emoji: "😡",
-      rating: "very_low",
-      description: "Got frustrated with work.",
-      createAt: new Date(),
-      dateLogged: new Date(),
-    },
-    {
-      emoji: "😡",
-      rating: "very_low",
-      description: "Got frustrated with work.",
-      createAt: new Date(),
-      dateLogged: new Date(),
-    },
-    {
-      emoji: "😡",
-      rating: "very_low",
-      description: "Got frustrated with work.",
-      createAt: new Date(),
-      dateLogged: new Date(),
-    },
-    {
-      emoji: "😡",
-      rating: "very_low",
-      description: "Got frustrated with work.",
-      createAt: new Date(),
-      dateLogged: new Date(),
-    },
-    {
-      emoji: "😡",
-      rating: "very_low",
-      description: "Got frustrated with work.",
-      createAt: new Date(),
-      dateLogged: new Date(),
-    },
-    {
-      emoji: "😡",
-      rating: "very_low",
-      description: "Got frustrated with work.",
-      createAt: new Date(),
-      dateLogged: new Date(),
-    },
-  ];
-  const weeklyEmotions = moods.map((mood) => {
-    return mood.emoji;
+  const {
+    control,
+    handleSubmit,
+    formState: { errors },
+    reset,
+  } = useForm<MoodData>({
+    resolver: zodResolver(moodSchema),
+    mode: "onSubmit",
   });
 
-  const fade: Animated.Value = useRef(new Animated.Value(0)).current;
-  const translateY: Animated.Value = useRef(new Animated.Value(20)).current;
-  const emojisOpacity: Animated.Value[] = useRef(
-    weeklyEmotions.map(() => new Animated.Value(0))
-  ).current;
+  useEffect(() => {
+    async function fetchMoods() {
+      await getMoods();
+    }
+    fetchMoods();
+  }, [getMoods]);
+
+  const greeting = useMemo(() => {
+    const h = new Date().getHours();
+    return h < 12 ? "Bom dia" : h < 18 ? "Boa tarde" : "Boa noite";
+  }, []);
+
+  const weeklyEmotions = useMemo(() => moods.map((m) => m.emoji), [moods]);
+
+  const fade = React.useRef(new Animated.Value(0)).current;
+  const translateY = React.useRef(new Animated.Value(20)).current;
 
   useEffect(() => {
-    Animated.sequence([
-      Animated.parallel([
-        Animated.timing(fade, {
-          toValue: 1,
-          duration: 600,
-          easing: Easing.out(Easing.ease),
-          useNativeDriver: true,
-        }),
-        Animated.timing(translateY, {
-          toValue: 0,
-          duration: 600,
-          easing: Easing.out(Easing.ease),
-          useNativeDriver: true,
-        }),
-      ]),
-      Animated.stagger(
-        100,
-        emojisOpacity.map((anim) =>
-          Animated.timing(anim, {
-            toValue: 1,
-            duration: 300,
-            useNativeDriver: true,
-          })
-        )
-      ),
+    Animated.parallel([
+      Animated.timing(fade, {
+        toValue: 1,
+        duration: 600,
+        useNativeDriver: true,
+      }),
+      Animated.timing(translateY, {
+        toValue: 0,
+        duration: 600,
+        useNativeDriver: true,
+      }),
     ]).start();
-  }, [fade, translateY, emojisOpacity]);
+  }, [fade, translateY]);
+
+  const handleCreateMood = async (data: MoodData) => {
+    const res = await createMood({ ...data, dateLogged: date });
+    if (res.success) {
+      setShowModal(false);
+      reset();
+      setDate(new Date());
+    }
+  };
+
+  const handleDateChange = (
+    event: DateTimePickerEvent,
+    selectedDate?: Date
+  ) => {
+    if (event.type === "set" && selectedDate) setDate(selectedDate);
+    setShowCalendar(false);
+  };
 
   return (
     <View style={styles.homeContainer}>
-      <Animated.View
-        style={{
-          opacity: fade,
-          transform: [{ translateY }],
-        }}
+      <ScrollView
+        contentContainerStyle={{ paddingBottom: 20 }}
+        showsVerticalScrollIndicator={false}
       >
-        <View style={styles.greetingContainer}>
-          <Text style={styles.greeting}>
-            {greeting}, {user?.name}
-          </Text>
-          <Text style={styles.subtitle}>Como você está se sentindo hoje?</Text>
-        </View>
-
-        <Card mode="contained" style={styles.moodCard}>
-          <Card.Content>
-            <Text style={styles.cardTitle}>Seu humor de hoje</Text>
-            <TouchableOpacity
-              onPress={() => setShowModal(true)}
-              activeOpacity={0.7}
-              style={styles.moodButton}
-            >
-              <Text style={styles.moodEmoji}>😄</Text>
-              <Text style={styles.moodText}>Registrar emoção</Text>
-            </TouchableOpacity>
-          </Card.Content>
-        </Card>
-
-        <View style={styles.timeline}>
-          <Text style={styles.sectionTitle}>Resumo da semana</Text>
-          <View style={styles.emojiRow}>
-            {!weeklyEmotions ||
-              (weeklyEmotions.length === 0 && (
-                <Text style={{ fontSize: 16, color: "#666" }}>
-                  🤔 Nada por aqui
-                </Text>
-              ))}
-            {weeklyEmotions.slice(0, 7).map((emoji, index) => (
-              <Animated.View
-                key={index}
-                style={[
-                  styles.emojiBubble,
-                  {
-                    opacity: emojisOpacity[index],
-                    transform: [{ scale: emojisOpacity[index] }],
-                  },
-                ]}
-              >
-                <Text style={styles.emoji}>{emoji}</Text>
-              </Animated.View>
-            ))}
+        <Animated.View style={{ opacity: fade, transform: [{ translateY }] }}>
+          <View style={styles.greetingContainer}>
+            <Text style={styles.greeting}>
+              {greeting}, {user?.name}
+            </Text>
+            <Text style={styles.subtitle}>
+              Como você está se sentindo hoje?
+            </Text>
           </View>
-        </View>
 
-        <Animated.View style={{ opacity: fade }}>
+          <Card mode="contained" style={styles.moodCard}>
+            <Card.Content>
+              <Text style={styles.cardTitle}>Seu humor de hoje</Text>
+              <TouchableOpacity
+                onPress={() => setShowModal(true)}
+                activeOpacity={0.7}
+                style={styles.moodButton}
+              >
+                <Text style={styles.moodEmoji}>😄</Text>
+                <Text style={styles.moodText}>Registrar emoção</Text>
+              </TouchableOpacity>
+            </Card.Content>
+          </Card>
+
+          <View style={styles.timeline}>
+            <Text style={styles.sectionTitle}>Resumo da semana</Text>
+            <View style={styles.emojiRow}>
+              {!weeklyEmotions.length && (
+                <Text style={{ color: "#666" }}>🤔 Nada por aqui</Text>
+              )}
+              {weeklyEmotions.slice(0, 7).map((emoji, index) => (
+                <View key={index} style={styles.emojiBubble}>
+                  <Text style={styles.emoji}>{emoji}</Text>
+                </View>
+              ))}
+            </View>
+          </View>
+
           <View style={styles.quoteContainer}>
             <MaterialCommunityIcons
               name="lightbulb-on-outline"
@@ -206,62 +136,63 @@ export default function Home(): React.JSX.Element {
               color="#888"
             />
             <Text style={styles.quote}>
-              “Lembre-se: até os dias nublados fazem parte da paisagem.” ☁️
+              “Até os dias nublados fazem parte da paisagem.” ☁️
             </Text>
           </View>
         </Animated.View>
-      </Animated.View>
-      <ScrollView
-        contentContainerStyle={{
-          gap: 16,
-          paddingBottom: 20,
-        }}
-        showsVerticalScrollIndicator={false}
-      >
-        <Text style={styles.sectionTitle}>Minha Semana</Text>
-        {(!moods || moods.length === 0) && (
-          <View
-            style={{
-              flex: 1,
-              justifyContent: "center",
-              alignItems: "center",
-              padding: 20,
-              minHeight: 150,
-            }}
-          >
-            <Text
-              style={{
-                fontSize: 16,
-                color: "#888",
-                textAlign: "center",
-              }}
-            >
-              Nenhum registro encontrado.
-            </Text>
-            <Text
-              style={{
-                fontSize: 14,
-                color: "#AAA",
-                textAlign: "center",
-                marginTop: 4,
-              }}
-            >
-              Comece a adicionar suas emoções para vê-las aqui.
-            </Text>
-          </View>
-        )}
-        {moods.slice(0, 3).map((mood, index) => (
-          <MoodCard key={index} mood={mood} variant="list" />
-        ))}
+
+        <View style={{ marginTop: 24 }}>
+          <RecentMoods moods={moods} isLoading={isLoading} />
+        </View>
       </ScrollView>
 
       <Modal
         visible={showModal}
         onDismiss={() => setShowModal(false)}
         title="Registrar Humor"
+        handleSubmit={handleSubmit(handleCreateMood)}
       >
-        <Text>Conteúdo do modal de registrar humor</Text>
+        <Picker
+          control={control}
+          name="rating"
+          label="Humor"
+          formError={errors.rating?.message}
+          items={[
+            { label: "Selecione...", value: "" },
+            { label: "Muito para baixo", value: "very_low" },
+            { label: "Para baixo", value: "low" },
+            { label: "Neutro", value: "neutral" },
+            { label: "Bem", value: "good" },
+            { label: "Muito bem", value: "very_good" },
+          ]}
+        />
+        <Input
+          control={control}
+          name="description"
+          label="Descrição"
+          placeholder="O que aconteceu hoje?"
+          formError={errors.description?.message}
+        />
+        <Input
+          control={control}
+          name="emoji"
+          label="Emoji"
+          placeholder="😄"
+          formError={errors.emoji?.message}
+        />
+
+        <View style={{ marginTop: 10 }}>
+          <Button
+            onPress={() => setShowCalendar(true)}
+            mode="outlined"
+            icon="calendar"
+          >
+            {formatDate(date)}
+          </Button>
+        </View>
       </Modal>
+
+      <Calendar date={date} show={showCalendar} onChange={handleDateChange} />
     </View>
   );
 }
