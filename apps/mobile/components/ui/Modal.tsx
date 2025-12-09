@@ -1,4 +1,4 @@
-import { useAuthStore } from "@/store/auth.store";
+import { useUserStore } from "@/store/user.store";
 import { modal } from "@/styles/modal.styles";
 import { Feather } from "@expo/vector-icons";
 import React from "react";
@@ -20,7 +20,7 @@ export default function Modal({
   title,
   handleSubmit,
 }: ModalProps): React.JSX.Element {
-  const { isLoading } = useAuthStore();
+  const { isLoading } = useUserStore();
 
   return (
     <Portal>
