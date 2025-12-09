@@ -80,10 +80,10 @@ const styles = StyleSheet.create({
     marginTop: "auto",
     borderTopWidth: 1,
     borderTopColor: "#eee",
-    marginBottom: 20,
   },
   quote: {
     fontSize: 14,
+    textAlign: "center",
     color: "#777",
     flex: 1,
   },

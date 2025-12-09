@@ -136,12 +136,12 @@ export default function Home(): React.JSX.Element {
           </View>
 
           <View style={styles.quoteContainer}>
-            <MaterialCommunityIcons
-              name="lightbulb-on-outline"
-              size={20}
-              color="#888"
-            />
             <Text style={styles.quote}>
+              <MaterialCommunityIcons
+                name="lightbulb-on-outline"
+                size={20}
+                color="#888"
+              />
               “Até os dias nublados fazem parte da paisagem.” ☁️
             </Text>
           </View>
