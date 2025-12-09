@@ -1,9 +1,19 @@
+import { useUserStore } from "@/store/user.store";
 import { theme } from "@/theme/theme";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { Tabs } from "expo-router";
 import React from "react";
+import { View, ActivityIndicator } from "react-native";
 
 export default function HomeLayout() {
+  const { user } = useUserStore();
+  if (!user) {
+    return (
+      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
+        <ActivityIndicator size="large" color={theme.colors.primary} />
+      </View>
+    );
+  }
   return (
     <Tabs
       screenOptions={{

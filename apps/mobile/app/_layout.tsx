@@ -1,10 +1,10 @@
 import { useUsers } from "@/hooks/useUser";
 import { useUserStore } from "@/store/user.store";
-import { theme as moodlyTheme, theme } from "@/theme/theme";
+import { theme as moodlyTheme } from "@/theme/theme";
 import { getItem } from "@/utils/storage";
 import { router, Slot } from "expo-router";
 import React, { useEffect } from "react";
-import { ActivityIndicator, StatusBar, View } from "react-native";
+import { StatusBar, View } from "react-native";
 import { DefaultTheme, PaperProvider } from "react-native-paper";
 import "react-native-reanimated";
 
@@ -32,24 +32,17 @@ export default function RootLayout() {
       const token = await getItem("token");
       if (!token) {
         router.replace("/(auth)/auth");
+        return;
       }
       if (!user) {
         await getUser();
       }
-
       router.replace("/(home)/home");
     };
 
     fetch();
   }, [getUser, user]);
 
-  if (!user) {
-    return (
-      <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator size="large" color={theme.colors.primary} />
-      </View>
-    );
-  }
   return (
     <PaperProvider theme={paperTheme}>
       <View
