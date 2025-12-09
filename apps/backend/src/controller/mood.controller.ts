@@ -4,22 +4,19 @@ import { makeMoodService } from "../factories/mood.factory";
 
 export default function moodController(fastify: FastifyInstance) {
   const moodService = makeMoodService();
-  fastify.post<{ Body: CreateMoodDTO; Params: { userId: string } }>(
-    "/:userId",
-    async (req, reply) => {
-      const { userId } = req.params;
-      const data = req.body;
-      try {
-        await moodService.createMood(userId, data);
-        reply.send().code(201);
-      } catch (error) {
-        reply.send(error).code(400);
-      }
+  fastify.post<{ Body: CreateMoodDTO }>("/", async (req, reply) => {
+    const data = req.body;
+    const { id } = req.user;
+    try {
+      await moodService.createMood(id, data);
+      reply.code(201);
+    } catch (error) {
+      reply.send(error).code(400);
     }
-  );
+  });
 
-  fastify.get<{ Params: { id: string } }>("/:id", async (req, reply) => {
-    const { id } = req.params;
+  fastify.get<{ Params: { id: string } }>("/", async (req, reply) => {
+    const { id } = req.user;
     try {
       const moods = await moodService.getMoods(id);
       reply.send(moods).code(200);
