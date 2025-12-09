@@ -1,11 +1,11 @@
 import IUseAuth from "@/interfaces/useAuth";
-import { useAuthStore } from "@/store/auth.store";
+import { useUserStore } from "@/store/user.store";
 import { getItem, removeItem, saveItem } from "@/utils/storage";
 import { User } from "@moodly/core";
 import { useCallback } from "react";
 
-export const useRequests = (): IUseAuth => {
-  const { setError, setIsLoading, setUser } = useAuthStore.getState();
+export const useUsers = (): IUseAuth => {
+  const { setError, setIsLoading, setUser } = useUserStore.getState();
 
   const getUser = useCallback(async () => {
     setIsLoading(true);
