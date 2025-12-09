@@ -20,8 +20,11 @@ export function Calendar({ show, date, onChange }: CalendarProps) {
           testID="dateTimePicker"
           value={date}
           mode={"date"}
+          maximumDate={date}
           is24Hour={true}
           onChange={onChange}
+          negativeButton={{ label: "Cancelar", textColor: "red" }}
+          positiveButton={{ label: "OK", textColor: "green" }}
         />
       )}
     </View>
