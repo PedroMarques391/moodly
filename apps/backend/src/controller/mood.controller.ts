@@ -1,16 +1,14 @@
 import { CreateMoodDTO } from "@moodly/core";
 import { FastifyInstance } from "fastify";
 import { makeMoodService } from "../factories/mood.factory";
+import { MoodScheme } from "../schemes/MoodSchema";
 
 export default function moodController(fastify: FastifyInstance) {
   const moodService = makeMoodService();
   fastify.post<{ Body: CreateMoodDTO }>(
     "/",
     {
-      schema: {
-        tags: ["Mood"],
-        summary: "Criar Mood.",
-      },
+      schema: MoodScheme.createMood,
     },
     async (req, reply) => {
       const data = req.body;
