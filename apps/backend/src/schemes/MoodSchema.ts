@@ -7,7 +7,11 @@ export class MoodScheme {
     body: z
       .object({
         dateLogged: z.coerce.date("invalid date"),
-        emoji: z.string().min(1, "don't leave empty").max(2, "just one emoji"),
+        emoji: z
+          .string()
+          .min(1, "don't leave empty")
+          .max(2, "just one emoji")
+          .regex(/\p{Emoji}/u, "must be a valid emoji"),
         description: z
           .string()
           .min(1, "don't leave empty")
