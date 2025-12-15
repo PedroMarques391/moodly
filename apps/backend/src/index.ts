@@ -9,7 +9,7 @@ import {
 import moodController from "./controller/mood.controller";
 import userController from "./controller/user.controller";
 import authPlugin from "./plugins/auth.plugin";
-import { errorHandlerPlugin } from "./plugins/error.handler";
+import errorHandlerPlugin from "./plugins/error.handler";
 
 const server: FastifyInstance = fastify().withTypeProvider<ZodTypeProvider>();
 
