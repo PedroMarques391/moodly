@@ -6,7 +6,10 @@ export class MoodScheme {
     summary: "Criar Mood.",
     body: z
       .object({
-        dateLogged: z.coerce.date("invalid date"),
+        dateLogged: z.coerce.date("invalid date").refine((date) => {
+          const today = new Date();
+          return date <= today;
+        }, "date must be in the past"),
         emoji: z
           .string()
           .min(1, "don't leave empty")
