@@ -4,11 +4,13 @@ export class UserSchema {
   static createUser = {
     tags: ["User"],
     summary: "Criar Usuário.",
-    body: z.object({
-      name: z.string().min(4, "must be at least 4 characters long"),
-      email: z.email("invalid email"),
-      password: z.string().min(6, "must be at least 6 characters long"),
-    }),
+    body: z
+      .object({
+        name: z.string().min(4, "must be at least 4 characters long"),
+        email: z.email("invalid email"),
+        password: z.string().min(6, "must be at least 6 characters long"),
+      })
+      .strict(),
     response: {
       201: z.object({
         message: z.string(),
@@ -23,10 +25,12 @@ export class UserSchema {
   static loginUser = {
     tags: ["User"],
     summary: "Logar Usuário.",
-    body: z.object({
-      email: z.email("invalid email"),
-      password: z.string().min(6, "must be at least 6 characters long"),
-    }),
+    body: z
+      .object({
+        email: z.email("invalid email"),
+        password: z.string().min(6, "must be at least 6 characters long"),
+      })
+      .strict(),
     response: {
       200: z.object({
         token: z.string(),
