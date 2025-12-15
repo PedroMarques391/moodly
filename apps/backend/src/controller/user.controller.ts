@@ -7,32 +7,56 @@ export default function userController(fastify: FastifyInstance) {
 
   fastify.post<{
     Body: createUserDTO;
-  }>("/", async (req, reply) => {
-    const { name, email, password } = req.body;
+  }>(
+    "/",
+    {
+      schema: {
+        tags: ["User"],
+        summary: "Criar Usuário.",
+      },
+    },
+    async (req, reply) => {
+      const { name, email, password } = req.body;
 
-    try {
-      const payload = await userService.createUser({ name, email, password });
-      const token = fastify.jwt.sign(payload);
-      reply.send({ token }).code(201);
-    } catch (error) {
-      reply.send(error).code(400);
+      try {
+        const payload = await userService.createUser({ name, email, password });
+        const token = fastify.jwt.sign(payload);
+        reply.send({ token }).code(201);
+      } catch (error) {
+        reply.send(error).code(400);
+      }
     }
-  });
+  );
 
-  fastify.post<{ Body: LoginUser }>("/login", async (req, reply) => {
-    const { email, password } = req.body;
-    try {
-      const payload = await userService.loginUser({ email, password });
-      const token = fastify.jwt.sign(payload);
-      reply.send({ token }).code(200);
-    } catch (error) {
-      reply.send(error).code(400);
+  fastify.post<{ Body: LoginUser }>(
+    "/login",
+    {
+      schema: {
+        tags: ["User"],
+        summary: "Logar usuário.",
+      },
+    },
+    async (req, reply) => {
+      const { email, password } = req.body;
+      try {
+        const payload = await userService.loginUser({ email, password });
+        const token = fastify.jwt.sign(payload);
+        reply.send({ token }).code(200);
+      } catch (error) {
+        reply.send(error).code(400);
+      }
     }
-  });
+  );
 
   fastify.get(
     "/profile",
-    { onRequest: [fastify.authenticate] },
+    {
+      onRequest: [fastify.authenticate],
+      schema: {
+        tags: ["User"],
+        summary: "Listar usuário pelo email.",
+      },
+    },
     async (req: FastifyRequest, reply: FastifyReply) => {
       const { email } = req.user;
 
@@ -47,7 +71,13 @@ export default function userController(fastify: FastifyInstance) {
 
   fastify.put<{ Body: updateUserDTO }>(
     "/profile",
-    { onRequest: [fastify.authenticate] },
+    {
+      onRequest: [fastify.authenticate],
+      schema: {
+        tags: ["User"],
+        summary: "Editar informações do usuário.",
+      },
+    },
     async (req: FastifyRequest, reply: FastifyReply) => {
       const data = req.body;
       const { id } = req.user;

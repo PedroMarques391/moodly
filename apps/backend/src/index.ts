@@ -17,6 +17,16 @@ server.register(fastifySwagger, {
       description: "Documentação da API do aplicativo moodly.",
       version: "1.0.0",
     },
+    tags: [
+      {
+        name: "User",
+        description: "Operações relacionadas aos users.",
+      },
+      {
+        name: "Mood",
+        description: "Operações relacionadas aos moods.",
+      },
+    ],
   },
 });
 
