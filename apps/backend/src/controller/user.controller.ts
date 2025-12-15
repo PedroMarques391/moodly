@@ -1,5 +1,6 @@
 import { createUserDTO, LoginUser, updateUserDTO } from "@moodly/core";
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
+import { z } from "zod";
 import { makeUserService } from "../factories/user.factory";
 
 export default function userController(fastify: FastifyInstance) {
@@ -13,6 +14,16 @@ export default function userController(fastify: FastifyInstance) {
       schema: {
         tags: ["User"],
         summary: "Criar Usuário.",
+        body: z.object({
+          name: z.string().min(4, "must be at least 4 characters long"),
+          email: z.email("invalid email"),
+          password: z.string().min(6, "must be at least 8 characters long"),
+        }),
+        response: {
+          201: z.object({
+            message: z.string(),
+          }),
+        },
       },
     },
     async (req, reply) => {
