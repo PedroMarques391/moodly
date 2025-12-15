@@ -1,14 +1,22 @@
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUi from "@fastify/swagger-ui";
 import fastify, { FastifyInstance } from "fastify";
+import {
+  serializerCompiler,
+  validatorCompiler,
+  ZodTypeProvider,
+} from "fastify-type-provider-zod";
 import moodController from "./controller/mood.controller";
 import userController from "./controller/user.controller";
 import authPlugin from "./plugins/auth.plugin";
 import { errorHandlerPlugin } from "./plugins/error.handler";
 
-const server: FastifyInstance = fastify();
+const server: FastifyInstance = fastify().withTypeProvider<ZodTypeProvider>();
 
 const port: number = 3000;
+
+server.setValidatorCompiler(validatorCompiler);
+server.setSerializerCompiler(serializerCompiler);
 
 server.register(fastifySwagger, {
   openapi: {
