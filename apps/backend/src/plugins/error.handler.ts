@@ -7,11 +7,13 @@ import {
 } from "fastify";
 
 import fp from "fastify-plugin";
+import {
+  hasZodFastifySchemaValidationErrors,
+  isResponseSerializationError,
+} from "fastify-type-provider-zod";
 import { Prisma } from "../generated/prisma/client";
 
-export const errorHandlerPlugin: FastifyPluginAsync = async (
-  app: FastifyInstance
-) => {
+const errorHandlerPlugin: FastifyPluginAsync = async (app: FastifyInstance) => {
   app.setErrorHandler(
     (error: FastifyError, req: FastifyRequest, reply: FastifyReply) => {
       const isDbOffline =
@@ -25,13 +27,33 @@ export const errorHandlerPlugin: FastifyPluginAsync = async (
           message: "Não foi possível conectar ao banco de dados.",
         });
       }
-      req.log.error(error);
-      return reply.status(500).send({
-        error: "INTERNAL_SERVER_ERROR",
-        message: error.message,
-      });
+      if (hasZodFastifySchemaValidationErrors(error)) {
+        return reply.code(400).send({
+          error: "Response Validation Error",
+          message: error.message,
+          statusCode: 400,
+          details: {
+            issues: error.validation,
+            method: req.method,
+            url: req.url,
+          },
+        });
+      }
+
+      if (isResponseSerializationError(error)) {
+        return reply.code(500).send({
+          error: "Internal Server Error",
+          message: "Response doesn't match the schema",
+          statusCode: 500,
+          details: {
+            issues: error.cause.issues,
+            method: error.method,
+            url: error.url,
+          },
+        });
+      }
     }
   );
 };
 
-fp(errorHandlerPlugin);
+export default fp(errorHandlerPlugin);
