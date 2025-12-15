@@ -1,7 +1,7 @@
 import { createUserDTO, LoginUser, updateUserDTO } from "@moodly/core";
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
-import { z } from "zod";
 import { makeUserService } from "../factories/user.factory";
+import { UserSchema } from "../schemes/UserSchema";
 
 export default function userController(fastify: FastifyInstance) {
   const userService = makeUserService();
@@ -11,20 +11,7 @@ export default function userController(fastify: FastifyInstance) {
   }>(
     "/",
     {
-      schema: {
-        tags: ["User"],
-        summary: "Criar Usuário.",
-        body: z.object({
-          name: z.string().min(4, "must be at least 4 characters long"),
-          email: z.email("invalid email"),
-          password: z.string().min(6, "must be at least 8 characters long"),
-        }),
-        response: {
-          201: z.object({
-            message: z.string(),
-          }),
-        },
-      },
+      schema: UserSchema.createUser,
     },
     async (req, reply) => {
       const { name, email, password } = req.body;
@@ -42,19 +29,16 @@ export default function userController(fastify: FastifyInstance) {
   fastify.post<{ Body: LoginUser }>(
     "/login",
     {
-      schema: {
-        tags: ["User"],
-        summary: "Logar usuário.",
-      },
+      schema: UserSchema.loginUser,
     },
     async (req, reply) => {
       const { email, password } = req.body;
       try {
         const payload = await userService.loginUser({ email, password });
         const token = fastify.jwt.sign(payload);
-        reply.send({ token }).code(200);
+        reply.code(201).send({ token });
       } catch (error) {
-        reply.send(error).code(400);
+        reply.code(400).send({ error: 400, message: error.message });
       }
     }
   );
