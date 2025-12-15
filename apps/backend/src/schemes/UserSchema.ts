@@ -37,4 +37,33 @@ export class UserSchema {
       }),
     },
   };
+
+  static updateUser = {
+    tags: ["User"],
+    summary: "Editar informações do usuário.",
+    body: z
+      .object({
+        name: z.string().optional(),
+        image: z.string().optional(),
+        bio: z.string().optional(),
+        baselineMood: z
+          .enum(
+            ["very_low", "low", "neutral", "good", "very_good"],
+            "invalid baselineMood."
+          )
+          .optional(),
+        copingStrategies: z.string().optional(),
+        goals: z.string().optional(),
+      })
+      .strict(),
+    response: {
+      200: z.object({
+        message: z.string(),
+      }),
+      400: z.object({
+        error: z.string(),
+        message: z.string(),
+      }),
+    },
+  };
 }

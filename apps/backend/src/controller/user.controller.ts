@@ -68,10 +68,7 @@ export default function userController(fastify: FastifyInstance) {
     "/profile",
     {
       onRequest: [fastify.authenticate],
-      schema: {
-        tags: ["User"],
-        summary: "Editar informações do usuário.",
-      },
+      schema: UserSchema.updateUser,
     },
     async (req: FastifyRequest, reply: FastifyReply) => {
       const data = req.body;
