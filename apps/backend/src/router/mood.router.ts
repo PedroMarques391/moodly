@@ -3,7 +3,7 @@ import { FastifyInstance } from "fastify";
 import { makeMoodService } from "../factories/mood.factory";
 import { MoodScheme } from "../schemes/MoodSchema";
 
-export default function moodController(fastify: FastifyInstance) {
+export default function moodRouter(fastify: FastifyInstance) {
   const moodService = makeMoodService();
   fastify.post<{ Body: CreateMoodDTO }>(
     "/",

@@ -3,7 +3,7 @@ import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
 import { makeUserService } from "../factories/user.factory";
 import { UserSchema } from "../schemes/UserSchema";
 
-export default function userController(fastify: FastifyInstance) {
+export default function userRouter(fastify: FastifyInstance) {
   const userService = makeUserService();
 
   fastify.post<{

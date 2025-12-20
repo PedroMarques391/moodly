@@ -4,7 +4,7 @@ import {
   User,
   UserRepositoryModel,
 } from "@moodly/core";
-import { prisma } from "../database/initialize";
+import { prisma } from "../database/prismaORM/initialize";
 
 export class UserRepository implements UserRepositoryModel {
   async findByEmail(email: string): Promise<User | null> {

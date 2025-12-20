@@ -6,10 +6,10 @@ import {
   validatorCompiler,
   ZodTypeProvider,
 } from "fastify-type-provider-zod";
-import moodController from "./controller/mood.controller";
-import userController from "./controller/user.controller";
 import authPlugin from "./plugins/auth.plugin";
 import errorHandlerPlugin from "./plugins/error.handler";
+import moodRouter from "./router/mood.router";
+import userRouter from "./router/user.router";
 
 const server: FastifyInstance = fastify().withTypeProvider<ZodTypeProvider>();
 
@@ -43,10 +43,10 @@ server.register(errorHandlerPlugin);
 server.register(
   async function (app: FastifyInstance) {
     await app.register(authPlugin);
-    app.register(userController, { prefix: "/users" });
+    app.register(userRouter, { prefix: "/users" });
     app.register(async function (protectedApp: FastifyInstance) {
       protectedApp.addHook("onRequest", app.authenticate);
-      protectedApp.register(moodController, { prefix: "/mood" });
+      protectedApp.register(moodRouter, { prefix: "/mood" });
     });
   },
   { prefix: "/api/v1" }

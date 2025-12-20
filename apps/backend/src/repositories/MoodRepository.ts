@@ -4,7 +4,7 @@ import {
   MoodRepositoryModel,
   UpdateMoodDTO,
 } from "@moodly/core";
-import { prisma } from "../database/initialize";
+import { prisma } from "../database/prismaORM/initialize";
 
 export class MoodRepository implements MoodRepositoryModel {
   async createMood(userId: string, data: CreateMoodDTO): Promise<void> {
