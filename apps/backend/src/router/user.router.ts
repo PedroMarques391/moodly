@@ -15,13 +15,12 @@ export default function userRouter(fastify: FastifyInstance) {
     },
     async (req, reply) => {
       const { name, email, password } = req.body;
-
       try {
         const payload = await userService.createUser({ name, email, password });
         const token = fastify.jwt.sign(payload);
         reply.send({ token }).code(201);
       } catch (error) {
-        reply.send(error).code(400);
+        reply.send({ message: error.message }).code(400);
       }
     }
   );
