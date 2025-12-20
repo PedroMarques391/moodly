@@ -53,7 +53,6 @@ export default function userRouter(fastify: FastifyInstance) {
     },
     async (req: FastifyRequest, reply: FastifyReply) => {
       const { email } = req.user;
-
       try {
         const user = await userService.getUser(email);
         reply.send(user).code(200);

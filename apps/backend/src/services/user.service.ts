@@ -45,9 +45,7 @@ export class UserService {
   async getUser(email: string): Promise<Omit<User, "password">> {
     const user = await this.userRepository.findByEmail(email);
     if (!user) throw new Error("USER_NOT_FOUND");
-    return {
-      ...user,
-    };
+    return user;
   }
 
   async update(id: string, user: updateUserDTO): Promise<void> {

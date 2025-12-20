@@ -1,6 +1,7 @@
 import {
   createUserDTO,
   Payload,
+  updateUserDTO,
   User,
   UserRepositoryModel,
 } from "@moodly/core";
@@ -32,7 +33,7 @@ export class UserRepository implements UserRepositoryModel {
     return prisma.users.findUnique({ where: { id } });
   }
 
-  async update(id: string, user: User): Promise<void> {
+  async update(id: string, user: updateUserDTO): Promise<void> {
     await prisma.users.update({
       where: { id },
       data: user,
