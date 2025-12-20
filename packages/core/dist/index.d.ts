@@ -52,6 +52,7 @@ type Payload = Pick<User, "id" | "email" | "name">;
 
 interface UserRepositoryModel {
   findByEmail(email: string): Promise<User | null>;
+  getUserWithoutPassword(email: string): Promise<Omit<User, "password"> | null>;
   createUser(user: createUserDTO): Promise<Payload>;
   findById(id: string): Promise<User | null>;
   update(id: string, user: updateUserDTO): Promise<void>;

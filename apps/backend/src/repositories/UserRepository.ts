@@ -11,6 +11,16 @@ export class UserRepository implements UserRepositoryModel {
   async findByEmail(email: string): Promise<User | null> {
     return prisma.users.findUnique({ where: { email } });
   }
+
+  async getUserWithoutPassword(
+    email: string
+  ): Promise<Omit<User, "password"> | null> {
+    return prisma.users.findUnique({
+      where: { email },
+      omit: { password: true },
+    });
+  }
+
   async createUser({ name, email, password }: createUserDTO): Promise<Payload> {
     const user = await prisma.users.create({
       data: {
