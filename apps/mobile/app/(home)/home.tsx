@@ -14,7 +14,13 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import React, { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Animated, ScrollView, TouchableOpacity, View } from "react-native";
+import {
+  Animated,
+  Platform,
+  ScrollView,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Button, Card, Text } from "react-native-paper";
 
 export default function Home(): React.JSX.Element {
@@ -192,17 +198,24 @@ export default function Home(): React.JSX.Element {
         />
 
         <View style={{ marginTop: 10 }}>
-          <Button
-            onPress={() => setShowCalendar(true)}
-            mode="outlined"
-            icon="calendar"
-          >
-            {formatDate(date)}
-          </Button>
+          {Platform.OS === "android" ? (
+            <Button
+              onPress={() => setShowCalendar(true)}
+              mode="outlined"
+              icon="calendar"
+            >
+              <Calendar
+                date={date}
+                show={showCalendar}
+                onChange={handleDateChange}
+              />
+              {formatDate(date)}
+            </Button>
+          ) : (
+            <Calendar date={date} show={true} onChange={handleDateChange} />
+          )}
         </View>
       </Modal>
-
-      <Calendar date={date} show={showCalendar} onChange={handleDateChange} />
     </View>
   );
 }
