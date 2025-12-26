@@ -3,23 +3,19 @@ import { formatDate } from "@/utils/formatDate";
 import getMoodColor from "@/utils/getMoodColor";
 import getMoodText from "@/utils/getMoodText";
 import { Mood } from "@moodly/core";
-import { View } from "react-native";
+import { router } from "expo-router";
+import { TouchableOpacity, View } from "react-native";
 import { Text } from "react-native-paper";
 import { SkeletonItem } from "./Skeleton";
 
 type MoodCardProps = {
-  mood: Mood | null;
+  mood: Mood;
   variant: "list" | "grid";
   onPressMenu?: () => void;
   isLoading: boolean;
 };
 
-export default function MoodCard({
-  mood,
-  variant,
-  onPressMenu,
-  isLoading,
-}: MoodCardProps) {
+export default function MoodCard({ mood, variant, isLoading }: MoodCardProps) {
   if (isLoading && variant === "list") {
     return (
       <View
@@ -49,8 +45,6 @@ export default function MoodCard({
     );
   }
 
-  if (!mood) return null;
-
   const color = getMoodColor(mood.rating);
   const title = getMoodText(mood.rating);
   const date = formatDate(mood.dateLogged).split("/");
@@ -75,9 +69,26 @@ export default function MoodCard({
           </View>
         </View>
       ) : (
-        <View>
-          <Text>grid</Text>
-        </View>
+        <TouchableOpacity
+          style={[moodCard.gridContainer, { backgroundColor: color }]}
+          onPress={() => {
+            router.push({
+              pathname: "/mood/[id]",
+              params: { id: mood.id },
+            });
+          }}
+          activeOpacity={0.7}
+        >
+          <View style={moodCard.iconContainer}>
+            <Text style={{ fontSize: 24 }}>{mood.emoji}</Text>
+          </View>
+
+          <View style={moodCard.infoContainer}>
+            <Text style={moodCard.gridTitle} numberOfLines={1}>
+              {title}
+            </Text>
+          </View>
+        </TouchableOpacity>
       )}
     </>
   );
