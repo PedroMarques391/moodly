@@ -32,7 +32,7 @@ export default function Modal({
       >
         <KeyboardAvoidingView
           style={modal.keyboardView}
-          behavior={Platform.OS === "ios" ? "padding" : undefined}
+          behavior={Platform.OS === "ios" ? "padding" : "height"}
         >
           <Text variant="titleLarge" style={modal.title}>
             {title}
