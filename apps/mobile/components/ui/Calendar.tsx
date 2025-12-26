@@ -1,3 +1,4 @@
+import { theme } from "@/theme/theme";
 import DateTimePicker, {
   DateTimePickerEvent,
 } from "@react-native-community/datetimepicker";
@@ -19,10 +20,14 @@ export function Calendar({ show, date, onChange }: CalendarProps) {
         <DateTimePicker
           testID="dateTimePicker"
           value={date}
-          mode={"date"}
-          maximumDate={date}
+          mode="date"
           is24Hour={true}
           onChange={onChange}
+          maximumDate={new Date()}
+          display="default"
+          locale="pt-BR"
+          themeVariant="dark"
+          accentColor={theme.colors.primary}
           negativeButton={{ label: "Cancelar", textColor: "red" }}
           positiveButton={{ label: "OK", textColor: "green" }}
         />
