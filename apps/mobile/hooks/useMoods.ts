@@ -71,8 +71,42 @@ export default function useMoods() {
     }
   };
 
+  const deleteMood = async (id: string) => {
+    setIsLoading(true);
+    setError(null);
+    const token = await getItem("token");
+
+    try {
+      if (!token) {
+        throw new Error("Operation unauthorized");
+      }
+
+      const response = await fetch(`${urlBase}${id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to delete mood");
+      }
+
+      await getMoods();
+
+      return { success: true };
+    } catch (error) {
+      console.error("Error deleting mood:", error);
+      setError((error as Error).message);
+      return { success: false, error: (error as Error).message };
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return {
     getMoods,
     createMood,
+    deleteMood,
   };
 }
