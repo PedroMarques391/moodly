@@ -2262,10 +2262,29 @@
     use-latest-callback "^0.2.4"
     use-sync-external-store "^1.5.0"
 
+"@react-navigation/drawer@^7.7.10":
+  version "7.7.10"
+  resolved "https://registry.yarnpkg.com/@react-navigation/drawer/-/drawer-7.7.10.tgz#c07651bcf917d163ff8b1a4e4c35ac527b11caa3"
+  integrity sha512-FGYU5Ebd2whTa4Z+RBCxnWqmyWIQGTJ7PAAhk2RjlVrEXLU0HaFR5JGmEHuNm/Cm9xX3xCwOxYZiA0Xi/DeyAA==
+  dependencies:
+    "@react-navigation/elements" "^2.9.3"
+    color "^4.2.3"
+    react-native-drawer-layout "^4.2.1"
+    use-latest-callback "^0.2.4"
+
 "@react-navigation/elements@^2.6.3", "@react-navigation/elements@^2.8.1":
   version "2.8.1"
   resolved "https://registry.yarnpkg.com/@react-navigation/elements/-/elements-2.8.1.tgz#4df96e0219a2ed0be20d5452297835e632aaa6f9"
   integrity sha512-MLmuS5kPAeAFFOylw89WGjgEFBqGj/KBK6ZrFrAOqLnTqEzk52/SO1olb5GB00k6ZUCDZKJOp1BrLXslxE6TgQ==
+  dependencies:
+    color "^4.2.3"
+    use-latest-callback "^0.2.4"
+    use-sync-external-store "^1.5.0"
+
+"@react-navigation/elements@^2.9.3":
+  version "2.9.3"
+  resolved "https://registry.yarnpkg.com/@react-navigation/elements/-/elements-2.9.3.tgz#505ae38af347a0bc5326155318a3d9a54e2071e3"
+  integrity sha512-3+eyvWiVPIEf6tN9UdduhOEHcTuNe3R5WovgiVkfH9+jApHMTZDc2loePTpY/i2HDJhObhhChpJzO6BVjrpdYQ==
   dependencies:
     color "^4.2.3"
     use-latest-callback "^0.2.4"
@@ -7338,6 +7357,14 @@ react-is@^19.1.0:
   version "19.2.0"
   resolved "https://registry.yarnpkg.com/react-is/-/react-is-19.2.0.tgz#ddc3b4a4e0f3336c3847f18b806506388d7b9973"
   integrity sha512-x3Ax3kNSMIIkyVYhWPyO09bu0uttcAIoecO/um/rKGQ4EltYWVYtyiGkS/3xMynrbVQdS69Jhlv8FXUEZehlzA==
+
+react-native-drawer-layout@^4.2.1:
+  version "4.2.1"
+  resolved "https://registry.yarnpkg.com/react-native-drawer-layout/-/react-native-drawer-layout-4.2.1.tgz#5c89425662c9b5216a227dbc87bc7f38c4ec8719"
+  integrity sha512-liwRJ7ynRU/ogRlUdiK1Yoi1VzUSq2Vu/RU+UgqlMB3XduslZ1DZg/mTX0f1uCEV2dJ4ec+1fRa3OlIierfyZg==
+  dependencies:
+    color "^4.2.3"
+    use-latest-callback "^0.2.4"
 
 react-native-gesture-handler@~2.28.0:
   version "2.28.0"
