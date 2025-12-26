@@ -1,10 +1,6 @@
-import { useUsers } from "@/hooks/useUser";
-import { useUserStore } from "@/store/user.store";
 import { theme as moodlyTheme } from "@/theme/theme";
-import { getItem } from "@/utils/storage";
-import { router, Slot } from "expo-router";
-import React, { useEffect } from "react";
-import { StatusBar, View } from "react-native";
+import { Stack } from "expo-router";
+import React from "react";
 import { DefaultTheme, PaperProvider } from "react-native-paper";
 import "react-native-reanimated";
 
@@ -24,40 +20,20 @@ const paperTheme = {
 };
 
 export default function RootLayout() {
-  const { user } = useUserStore();
-  const { getUser } = useUsers();
-
-  useEffect(() => {
-    const fetch = async () => {
-      const token = await getItem("token");
-      if (!token) {
-        router.replace("/(auth)/auth");
-        return;
-      }
-      if (!user) {
-        await getUser();
-      }
-      router.replace("/(home)/home");
-    };
-
-    fetch();
-  }, [getUser, user]);
-
   return (
     <PaperProvider theme={paperTheme}>
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: paperTheme.colors.background,
-        }}
-      >
-        <StatusBar
-          barStyle={"light-content"}
-          networkActivityIndicatorVisible
-          animated
+      <Stack>
+        <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen name="(home)" options={{ headerShown: false }} />
+        <Stack.Screen
+          name="mood/[id]"
+          options={{
+            presentation: "modal",
+            title: "Detalhes",
+            headerShown: true,
+          }}
         />
-        <Slot />
-      </View>
+      </Stack>
     </PaperProvider>
   );
 }
