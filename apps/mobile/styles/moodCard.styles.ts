@@ -43,4 +43,38 @@ export const moodCard = StyleSheet.create({
     textTransform: "uppercase",
     marginTop: -2,
   },
+  gridContainer: {
+    width: 100,
+    height: 100,
+    aspectRatio: 1,
+    borderRadius: 20,
+    padding: 12,
+    justifyContent: "space-between",
+    alignItems: "center",
+    elevation: 4,
+    shadowColor: "#000",
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    marginBottom: 16,
+  },
+  iconContainer: {
+    backgroundColor: "rgba(255,255,255,0.2)",
+    width: 45,
+    height: 45,
+    borderRadius: 22.5,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+
+  infoContainer: {
+    justifyContent: "flex-end",
+  },
+  gridTitle: {
+    fontSize: 12,
+    fontWeight: "700",
+    color: "#fff",
+    textShadowColor: "rgba(0, 0, 0, 0.1)",
+    textShadowRadius: 2,
+  },
 });

@@ -8,7 +8,6 @@ export const modal = StyleSheet.create({
     paddingHorizontal: 24,
     paddingTop: 24,
     paddingBottom: 20,
-    maxHeight: "90%",
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -34,7 +33,7 @@ export const modal = StyleSheet.create({
     textAlign: "center",
   },
   scrollContainer: {
-    paddingBottom: 16,
+    paddingBottom: 10,
     alignItems: "center",
     gap: 14,
   },
