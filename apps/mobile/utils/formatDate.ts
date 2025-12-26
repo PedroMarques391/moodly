@@ -17,4 +17,15 @@ function formatTime(date: Date): string {
   return formatedDate;
 }
 
-export { formatDate, formatTime };
+const formatCompleteDate = (dateString: Date | string) => {
+  const date = new Date(dateString);
+  return new Intl.DateTimeFormat("pt-BR", {
+    weekday: "long",
+    day: "2-digit",
+    month: "long",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(date);
+};
+
+export { formatCompleteDate, formatDate, formatTime };
