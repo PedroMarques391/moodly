@@ -3,7 +3,7 @@ import { theme } from "@/theme/theme";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { Tabs } from "expo-router";
 import React from "react";
-import { View, ActivityIndicator } from "react-native";
+import { ActivityIndicator, View } from "react-native";
 
 export default function HomeLayout() {
   const { user } = useUserStore();
@@ -30,7 +30,7 @@ export default function HomeLayout() {
       }}
     >
       <Tabs.Screen
-        name="dashboard"
+        name="(dashboard)"
         options={{
           title: "Dashboard",
           tabBarIcon: ({ color, size, focused }) => (
