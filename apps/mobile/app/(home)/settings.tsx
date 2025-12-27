@@ -1,26 +1,36 @@
 import JourneySection from "@/components/sections/JourneySection";
 import Preferences from "@/components/sections/Preferences";
 import SecuritySection from "@/components/sections/SecuritySection";
+import * as ImagePicker from "expo-image-picker";
+
 import Input from "@/components/ui/Input";
 import ModalProfile from "@/components/ui/Modal";
 import Picker from "@/components/ui/Picker";
 import Profile from "@/components/ui/Profile";
+import ProfileAvatar from "@/components/ui/ProfileAvatar";
 import { useUsers } from "@/hooks/useUser";
+import { Image } from "@/interfaces/image";
 import { useUserStore } from "@/store/user.store";
 import { settings } from "@/styles/settings.styles";
 import { theme } from "@/theme/theme";
+import { createFormData } from "@/utils/createFormData";
 import { formatDate, formatTime } from "@/utils/formatDate";
 import { UpdateData, updateSchema } from "@/validations/update.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { ScrollView } from "react-native";
-import { Avatar, Button, Text } from "react-native-paper";
+import { Alert, ScrollView } from "react-native";
+import { Button, Text } from "react-native-paper";
 
 export default function Settings() {
   const { user } = useUserStore();
-  const { logout: handleLogout, updateUser } = useUsers();
+  const { logout: handleLogout, updateUser, uploadImage } = useUsers();
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [image, setImage] = useState<Image>({
+    name: "defaultAvatar.jpg",
+    mimeType: "image/jpeg",
+    uri: user?.image ?? "",
+  });
 
   const {
     control,
@@ -55,7 +65,21 @@ export default function Settings() {
 
   async function handleUpdate(data: UpdateData) {
     if (!user) return;
-    const result = await updateUser(user.id, data);
+
+    const formData = await createFormData(
+      image.uri,
+      image.mimeType,
+      image.name
+    );
+
+    const { url } = await uploadImage(formData);
+
+    const dataWithImage = {
+      ...data,
+      image: url,
+    };
+
+    const result = await updateUser(user.id, dataWithImage);
     if (result.success) {
       setShowModal(false);
     }
@@ -71,12 +95,54 @@ export default function Settings() {
     setShowModal((prev) => !prev);
   }
 
+  const handleDismiss = () => {
+    setShowModal(false);
+    if (image.uri !== user.image) {
+      setTimeout(() => {
+        setImage({
+          name: "defaultAvatar.jpg",
+          mimeType: "image/jpeg",
+          uri: user?.image ?? "",
+        });
+      }, 300);
+    }
+  };
+
+  const pickImage = async () => {
+    const permissionResult =
+      await ImagePicker.requestMediaLibraryPermissionsAsync();
+
+    if (!permissionResult.granted) {
+      Alert.alert(
+        "Permission required",
+        "Permission to access the media library is required."
+      );
+      return;
+    }
+
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ["images"],
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.canceled) {
+      const imageData: Image = {
+        uri: result.assets[0].uri,
+        name: result.assets[0].fileName ?? "defaultAvatar.jpg",
+        mimeType: result.assets[0].type ?? "image/jpeg",
+      };
+      setImage(imageData);
+    }
+  };
+
   return (
     <>
       <Profile
         name={user.name}
         email={user.email}
-        image={user.image}
+        image={image.uri}
         createdAt={user.createdAt}
         handleShowModal={handleShowModal}
       />
@@ -106,12 +172,13 @@ export default function Settings() {
 
       <ModalProfile
         visible={showModal}
-        onDismiss={handleShowModal}
+        onDismiss={handleDismiss}
         title="Editar Perfil"
         handleSubmit={handleSubmit(handleUpdate)}
       >
         <Text>{lastUpdated}</Text>
-        <Avatar.Image size={100} source={{ uri: user.image }} />
+
+        <ProfileAvatar image={image.uri} pickImage={pickImage} />
 
         <Input
           label="Nome"

@@ -1,7 +1,7 @@
 import { avatar } from "@/styles/avatar.styles";
 import { theme } from "@/theme/theme";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { View, TouchableOpacity } from "react-native";
+import { TouchableOpacity, View } from "react-native";
 import { Avatar } from "react-native-paper";
 
 interface ProfileAvatarProps {
