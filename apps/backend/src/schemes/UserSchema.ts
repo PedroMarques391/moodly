@@ -58,6 +58,7 @@ export class UserSchema {
           .optional(),
         copingStrategies: z.string().optional(),
         goals: z.string().optional(),
+        triggers: z.string().optional(),
       })
       .strict(),
     response: {

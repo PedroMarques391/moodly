@@ -8,10 +8,6 @@ export class UploadService {
     filename: string,
     mimetype: string
   ) {
-    console.log(stream);
-    console.log(filename);
-    console.log(mimetype);
-
     if (!stream) {
       throw new Error("Você precisa enviar um arquivo.");
     }
