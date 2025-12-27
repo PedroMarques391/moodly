@@ -39,6 +39,12 @@
             "backgroundColor": "#000000"
           }
         }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Esse apliticativo precisa acessar suas fotos para que você possa selecionar imagens para seu perfil."
+        }
       ]
     ],
     "experiments": {
