@@ -1,8 +1,10 @@
 import { theme as moodlyTheme } from "@/theme/theme";
 import { Stack } from "expo-router";
 import React from "react";
+import { StatusBar } from "react-native";
 import { DefaultTheme, PaperProvider } from "react-native-paper";
 import "react-native-reanimated";
+import { SafeAreaProvider } from "react-native-safe-area-context";
 
 const paperTheme = {
   ...DefaultTheme,
@@ -22,18 +24,21 @@ const paperTheme = {
 export default function RootLayout() {
   return (
     <PaperProvider theme={paperTheme}>
-      <Stack>
-        <Stack.Screen name="index" options={{ headerShown: false }} />
-        <Stack.Screen name="(home)" options={{ headerShown: false }} />
-        <Stack.Screen
-          name="mood/[id]"
-          options={{
-            presentation: "modal",
-            title: "Detalhes",
-            headerShown: true,
-          }}
-        />
-      </Stack>
+      <StatusBar barStyle="dark-content" />
+      <SafeAreaProvider>
+        <Stack>
+          <Stack.Screen name="index" options={{ headerShown: false }} />
+          <Stack.Screen name="(home)" options={{ headerShown: false }} />
+          <Stack.Screen
+            name="mood/[id]"
+            options={{
+              presentation: "modal",
+              title: "Detalhes",
+              headerShown: true,
+            }}
+          />
+        </Stack>
+      </SafeAreaProvider>
     </PaperProvider>
   );
 }

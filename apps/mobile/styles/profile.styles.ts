@@ -5,7 +5,6 @@ export const profile = StyleSheet.create({
   card: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#ffffff",
     padding: 16,
     borderBottomLeftRadius: 16,
     borderBottomRightRadius: 16,

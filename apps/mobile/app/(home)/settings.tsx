@@ -19,8 +19,9 @@ import { UpdateData, updateSchema } from "@/validations/update.schema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { Alert, ScrollView } from "react-native";
+import { Alert, ScrollView, View } from "react-native";
 import { Button, Text } from "react-native-paper";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function Settings() {
   const { user } = useUserStore();
@@ -31,6 +32,7 @@ export default function Settings() {
     mimeType: "image/jpeg",
     uri: user?.image ?? "",
   });
+  const insets = useSafeAreaInsets();
 
   const {
     control,
@@ -138,7 +140,7 @@ export default function Settings() {
   };
 
   return (
-    <>
+    <View style={{ flex: 1, top: insets.top }}>
       <Profile
         name={user.name}
         email={user.email}
@@ -238,6 +240,6 @@ export default function Settings() {
           ]}
         />
       </ModalProfile>
-    </>
+    </View>
   );
 }

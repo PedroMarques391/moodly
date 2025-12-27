@@ -16,6 +16,7 @@ import React, { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
 import { Animated, Platform, TouchableOpacity, View } from "react-native";
 import { Button, Card, Text } from "react-native-paper";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 export default function Home(): React.JSX.Element {
   const { user } = useUserStore();
@@ -25,6 +26,7 @@ export default function Home(): React.JSX.Element {
   const [showModal, setShowModal] = useState(false);
   const [showCalendar, setShowCalendar] = useState(false);
   const [date, setDate] = useState<Date>(new Date());
+  const insets = useSafeAreaInsets();
 
   const {
     control,
@@ -97,7 +99,7 @@ export default function Home(): React.JSX.Element {
   };
 
   return (
-    <View style={styles.homeContainer}>
+    <View style={[styles.homeContainer, { paddingTop: insets.top }]}>
       <Animated.View style={{ opacity: fade, transform: [{ translateY }] }}>
         <View style={styles.greetingContainer}>
           <Text style={styles.greeting}>

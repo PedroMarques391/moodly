@@ -1,12 +1,12 @@
 import { theme } from "@/theme/theme";
-import { Platform, StyleSheet } from "react-native";
+import { StyleSheet } from "react-native";
 
 const styles = StyleSheet.create({
   homeContainer: {
     flex: 1,
     paddingHorizontal: 20,
     justifyContent: "flex-start",
-    marginTop: Platform.OS === "ios" ? 60 : 40,
+    marginTop: 30,
   },
   greetingContainer: {
     width: "100%",
