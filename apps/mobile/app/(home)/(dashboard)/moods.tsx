@@ -1,34 +1,11 @@
+import ListEmptyComponent from "@/components/sections/ListEmptyComponent";
 import MoodCard from "@/components/ui/MoodCard";
 import { useMoodStore } from "@/store/mood.store";
-import { MaterialCommunityIcons } from "@expo/vector-icons";
-import { router } from "expo-router";
 import React from "react";
-import {
-  FlatList,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { FlatList, StyleSheet, View } from "react-native";
 
 export default function MoodsScreen() {
   const { mood: moods } = useMoodStore();
-
-  const renderEmptyList = () => (
-    <View style={styles.emptyContainer}>
-      <MaterialCommunityIcons
-        name="emoticon-neutral-outline"
-        size={64}
-        color="#ccc"
-      />
-      <Text style={styles.emptyText}>Nenhum registro ainda.</Text>
-      <TouchableOpacity onPress={() => router.push("/(home)/home")}>
-        <Text style={styles.emptySubText}>
-          Adicione seu primeiro mood para começar a acompanhar seu bem-estar!
-        </Text>
-      </TouchableOpacity>
-    </View>
-  );
 
   return (
     <View style={styles.container}>
@@ -42,14 +19,9 @@ export default function MoodsScreen() {
           moods.length === 0 && { flex: 1, justifyContent: "center" },
         ]}
         renderItem={({ item }) => (
-          <MoodCard
-            mood={item}
-            variant="grid"
-            isLoading={false}
-            // onPress={() => handleOpenModal(item)}
-          />
+          <MoodCard mood={item} variant="grid" isLoading={false} />
         )}
-        ListEmptyComponent={renderEmptyList}
+        ListEmptyComponent={ListEmptyComponent}
         showsVerticalScrollIndicator={false}
       />
     </View>
