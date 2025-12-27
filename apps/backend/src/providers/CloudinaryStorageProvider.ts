@@ -1,8 +1,8 @@
 import { v2 as cloudinary } from "cloudinary";
-import { IStorageProvider } from "../types/StorageProvider";
+import { StorageProvider } from "../types/storageProvider";
 import { IUploadResult } from "../types/uploadResult";
 
-export class CloudinaryStorageProvider implements IStorageProvider {
+export class CloudinaryStorageProvider implements StorageProvider {
   constructor() {
     cloudinary.config({
       cloud_name: process.env.CLOUDINARY_NAME,

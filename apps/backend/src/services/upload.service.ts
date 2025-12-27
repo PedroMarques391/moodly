@@ -1,7 +1,7 @@
-import { IStorageProvider } from "../types/StorageProvider";
+import { StorageProvider } from "../types/storageProvider";
 
 export class UploadService {
-  constructor(private readonly CloudinaryStorageProvider: IStorageProvider) {}
+  constructor(private readonly CloudinaryStorageProvider: StorageProvider) {}
 
   async uploadFile(
     stream: NodeJS.ReadableStream,
