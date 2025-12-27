@@ -48,7 +48,7 @@ export class UserSchema {
     body: z
       .object({
         name: z.string().optional(),
-        image: z.string().optional(),
+        image: z.url().optional(),
         bio: z.string().optional(),
         baselineMood: z
           .enum(
