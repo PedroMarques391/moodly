@@ -14,13 +14,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { DateTimePickerEvent } from "@react-native-community/datetimepicker";
 import React, { useEffect, useMemo, useState } from "react";
 import { useForm } from "react-hook-form";
-import {
-  Animated,
-  Platform,
-  ScrollView,
-  TouchableOpacity,
-  View,
-} from "react-native";
+import { Animated, Platform, TouchableOpacity, View } from "react-native";
 import { Button, Card, Text } from "react-native-paper";
 
 export default function Home(): React.JSX.Element {
@@ -104,64 +98,57 @@ export default function Home(): React.JSX.Element {
 
   return (
     <View style={styles.homeContainer}>
-      <ScrollView
-        contentContainerStyle={{ paddingBottom: 20 }}
-        showsVerticalScrollIndicator={false}
-      >
-        <Animated.View style={{ opacity: fade, transform: [{ translateY }] }}>
-          <View style={styles.greetingContainer}>
-            <Text style={styles.greeting}>
-              {greeting}, {user?.name}
-            </Text>
-            <Text style={styles.subtitle}>
-              Como você está se sentindo hoje?
-            </Text>
-          </View>
-
-          <Card mode="contained" style={styles.moodCard}>
-            <Card.Content>
-              <Text style={styles.cardTitle}>Seu humor de hoje</Text>
-              <TouchableOpacity
-                onPress={() => setShowModal(true)}
-                activeOpacity={0.7}
-                style={styles.moodButton}
-              >
-                <Text style={styles.moodEmoji}>😄</Text>
-                <Text style={styles.moodText}>Registrar emoção</Text>
-              </TouchableOpacity>
-            </Card.Content>
-          </Card>
-
-          <View style={styles.timeline}>
-            <Text style={styles.sectionTitle}>Resumo da semana</Text>
-            <View style={styles.emojiRow}>
-              {!weeklyEmotions.length && (
-                <Text style={{ color: "#666" }}>🤔 Nada por aqui</Text>
-              )}
-              {weeklyEmotions.slice(0, 7).map((emoji, index) => (
-                <View key={index} style={styles.emojiBubble}>
-                  <Text style={styles.emoji}>{emoji}</Text>
-                </View>
-              ))}
-            </View>
-          </View>
-
-          <View style={styles.quoteContainer}>
-            <Text style={styles.quote}>
-              <MaterialCommunityIcons
-                name="lightbulb-on-outline"
-                size={20}
-                color="#888"
-              />
-              “Até os dias nublados fazem parte da paisagem.” ☁️
-            </Text>
-          </View>
-        </Animated.View>
-
-        <View style={{ marginTop: 24 }}>
-          <RecentMoods moods={moods} isLoading={isLoading} />
+      <Animated.View style={{ opacity: fade, transform: [{ translateY }] }}>
+        <View style={styles.greetingContainer}>
+          <Text style={styles.greeting}>
+            {greeting}, {user?.name}
+          </Text>
+          <Text style={styles.subtitle}>Como você está se sentindo hoje?</Text>
         </View>
-      </ScrollView>
+
+        <Card mode="contained" style={styles.moodCard}>
+          <Card.Content>
+            <Text style={styles.cardTitle}>Seu humor de hoje</Text>
+            <TouchableOpacity
+              onPress={() => setShowModal(true)}
+              activeOpacity={0.7}
+              style={styles.moodButton}
+            >
+              <Text style={styles.moodEmoji}>😄</Text>
+              <Text style={styles.moodText}>Registrar emoção</Text>
+            </TouchableOpacity>
+          </Card.Content>
+        </Card>
+
+        <View style={styles.timeline}>
+          <Text style={styles.sectionTitle}>Resumo da semana</Text>
+          <View style={styles.emojiRow}>
+            {!weeklyEmotions.length && (
+              <Text style={{ color: "#666" }}>🤔 Nada por aqui</Text>
+            )}
+            {weeklyEmotions.slice(0, 7).map((emoji, index) => (
+              <View key={index} style={styles.emojiBubble}>
+                <Text style={styles.emoji}>{emoji}</Text>
+              </View>
+            ))}
+          </View>
+        </View>
+
+        <View style={styles.quoteContainer}>
+          <Text style={styles.quote}>
+            <MaterialCommunityIcons
+              name="lightbulb-on-outline"
+              size={20}
+              color="#888"
+            />
+            “Até os dias nublados fazem parte da paisagem.” ☁️
+          </Text>
+        </View>
+      </Animated.View>
+
+      <View style={{ marginTop: 24 }}>
+        <RecentMoods moods={moods} isLoading={isLoading} />
+      </View>
 
       <Modal
         visible={showModal}
