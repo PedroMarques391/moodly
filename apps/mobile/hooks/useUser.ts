@@ -6,6 +6,7 @@ import { useCallback } from "react";
 
 export const useUsers = (): IUseAuth => {
   const { setError, setIsLoading, setUser } = useUserStore.getState();
+  const urlBase = "http://192.168.2.59:3000/api/v1/users";
 
   const getUser = useCallback(async () => {
     setIsLoading(true);
@@ -18,14 +19,11 @@ export const useUsers = (): IUseAuth => {
         throw new Error("Operation unauthorized");
       }
 
-      const response = await fetch(
-        `http://192.168.2.59:3000/api/v1/users/profile`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        }
-      );
+      const response = await fetch(`${urlBase}/profile`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
 
       if (response.status === 401) {
         throw new Error("Unauthorized");
@@ -52,7 +50,7 @@ export const useUsers = (): IUseAuth => {
     setError(null);
     setIsLoading(true);
     try {
-      const response = await fetch("http://192.168.2.59:3000/api/v1/users", {
+      const response = await fetch(`${urlBase}/users`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, password }),
@@ -85,14 +83,11 @@ export const useUsers = (): IUseAuth => {
     setIsLoading(true);
     setError(null);
     try {
-      const response = await fetch(
-        "http://192.168.2.59:3000/api/v1/users/login",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email, password }),
-        }
-      );
+      const response = await fetch(`${urlBase}/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password }),
+      });
 
       if (!response.ok) {
         throw new Error("Email ou senha incorretos");
@@ -115,17 +110,16 @@ export const useUsers = (): IUseAuth => {
     try {
       const token = await getItem("token");
 
-      const response = await fetch(
-        `http://192.168.2.59:3000/api/v1/users/profile`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify(data),
-        }
-      );
+      const response = await fetch(`${urlBase}/profile`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify(data),
+      });
+
+      console.log(response);
 
       if (!response.ok) {
         throw new Error("Falha ao atualizar o perfil.");
@@ -142,5 +136,36 @@ export const useUsers = (): IUseAuth => {
     }
   }
 
-  return { signIn, getUser, logout, login, updateUser };
+  async function uploadImage(formData: FormData) {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const token = await getItem("token");
+
+      const response = await fetch(`${urlBase}/upload`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: `Bearer ${token}`,
+        },
+        body: formData,
+      });
+
+      if (!response.ok) {
+        throw new Error("Falha ao enviar imagem.");
+      }
+
+      const data = await response.json();
+
+      return { success: true, url: data.url };
+    } catch (error: any) {
+      console.error("Falha ao atualizar:", error);
+      setError(error.message);
+      return { success: false, error: error.message };
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
+  return { signIn, getUser, logout, login, updateUser, uploadImage };
 };

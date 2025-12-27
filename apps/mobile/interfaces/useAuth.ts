@@ -16,6 +16,9 @@ interface IUseRequest {
     id: string,
     data: Partial<User>
   ) => Promise<{ success: boolean; error?: string }>;
+  uploadImage: (
+    formData: FormData
+  ) => Promise<{ success: boolean; url?: string; error?: string }>;
 }
 
 export default IUseRequest;
