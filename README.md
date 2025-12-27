@@ -101,3 +101,9 @@ cd apps/backend && npx prisma migrate dev && yarn run dev
 ```bash
 cd apps/mobile && npx expo start
 ```
+
+### 5. Executando o Mobile
+
+```bash
+yarn dev
+```
