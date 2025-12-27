@@ -20,11 +20,13 @@
   },
   "dependencies": {
     "@fastify/jwt": "^10.0.0",
+    "@fastify/multipart": "^9.3.0",
     "@fastify/swagger": "^9.6.1",
     "@fastify/swagger-ui": "^5.2.3",
     "@moodly/core": "*",
     "@prisma/client": "^6.19.0",
     "bcrypt": "^6.0.0",
+    "cloudinary": "^2.8.0",
     "fastify": "^5.6.1",
     "fastify-plugin": "^5.1.0",
     "fastify-type-provider-zod": "^6.1.0",
