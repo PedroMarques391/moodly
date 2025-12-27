@@ -1,5 +1,7 @@
+import fastifyMultipart from "@fastify/multipart";
 import fastifySwagger from "@fastify/swagger";
 import fastifySwaggerUi from "@fastify/swagger-ui";
+
 import fastify, { FastifyInstance } from "fastify";
 import {
   serializerCompiler,
@@ -17,6 +19,7 @@ const port: number = 3000;
 
 server.setValidatorCompiler(validatorCompiler);
 server.setSerializerCompiler(serializerCompiler);
+server.register(fastifyMultipart);
 
 server.register(fastifySwagger, {
   openapi: {
