@@ -1,10 +1,13 @@
 import { createUserDTO, LoginUser, updateUserDTO } from "@moodly/core";
 import { FastifyInstance, FastifyReply, FastifyRequest } from "fastify";
+import { makeUploadService } from "../factories/upload.factory";
 import { makeUserService } from "../factories/user.factory";
 import { UserSchema } from "../schemes/UserSchema";
 
 export default function userRouter(fastify: FastifyInstance) {
   const userService = makeUserService();
+
+  const uploadService = makeUploadService();
 
   fastify.post<{
     Body: createUserDTO;
@@ -76,6 +79,35 @@ export default function userRouter(fastify: FastifyInstance) {
         reply.send({ message: "User updated" }).code(200);
       } catch (error) {
         reply.send(error).code(400);
+      }
+    }
+  );
+
+  fastify.post(
+    "/upload",
+    {
+      onRequest: [fastify.authenticate],
+    },
+    async (req: FastifyRequest, reply: FastifyReply) => {
+      const data = await req.file();
+
+      try {
+        if (!data) {
+          throw new Error("No file uploaded");
+        }
+
+        const url = await uploadService.uploadFile(
+          data.file,
+          data.filename,
+          data.mimetype
+        );
+
+        return reply.status(200).send({
+          url: url,
+        });
+      } catch (error) {
+        console.error(error);
+        return reply.code(500).send({ message: error.message });
       }
     }
   );
