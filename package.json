@@ -7,17 +7,17 @@
   "license": "MIT",
   "private": true,
   "scripts": {
-    "dev": "run-p app:* packages:*",
-    "app:mobile": "cd apps/mobile && npx expo start",
-    "app:backend": "cd apps/backend && yarn run dev",
-    "packages:core": "cd packages/core && yarn run dev"
+    "dev": "yarn app:backend & yarn packages:core & yarn app:mobile",
+    "app:mobile": "yarn workspace moodly-mobile dev",
+    "app:backend": "yarn workspace moodly-api dev",
+    "packages:core": "yarn workspace @moodly/core dev"
   },
   "workspaces": [
     "apps/*",
     "packages/*"
   ],
-  "dependencies": {},
   "devDependencies": {
     "npm-run-all": "^4.1.5"
-  }
+  },
+  "packageManager": "yarn@4.12.0+sha512.f45ab632439a67f8bc759bf32ead036a1f413287b9042726b7cc4818b7b49e14e9423ba49b18f9e06ea4941c1ad062385b1d8760a8d5091a1a31e5f6219afca8"
 }
