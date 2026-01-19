@@ -35,10 +35,6 @@ export class UserSchema {
       200: z.object({
         token: z.string(),
       }),
-      400: z.object({
-        error: z.number(),
-        message: z.string(),
-      }),
     },
   };
 
@@ -53,7 +49,7 @@ export class UserSchema {
         baselineMood: z
           .enum(
             ["very_low", "low", "neutral", "good", "very_good"],
-            "invalid baselineMood."
+            "invalid baselineMood.",
           )
           .optional(),
         copingStrategies: z.string().optional(),

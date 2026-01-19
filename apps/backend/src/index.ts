@@ -12,8 +12,13 @@ import authPlugin from "./plugins/auth.plugin";
 import errorHandlerPlugin from "./plugins/error.handler";
 import moodRouter from "./router/mood.router";
 import userRouter from "./router/user.router";
+import envToLogger from "./utils/loggger";
 
-const server: FastifyInstance = fastify().withTypeProvider<ZodTypeProvider>();
+const environment = process.env.NODE_ENV || "development";
+
+const server: FastifyInstance = fastify({
+  logger: envToLogger[environment] ?? true,
+}).withTypeProvider<ZodTypeProvider>();
 
 const port: number = 3000;
 
@@ -52,14 +57,14 @@ server.register(
       protectedApp.register(moodRouter, { prefix: "/mood" });
     });
   },
-  { prefix: "/api/v1" }
+  { prefix: "/api/v1" },
 );
 server.register(fastifySwaggerUi, { routePrefix: "/docs" });
 
 server.listen({ port: port, host: "0.0.0.0" }, (err, _) => {
   if (err) {
-    console.error(err);
+    server.log.error(err);
     process.exit(1);
   }
-  console.info(`server listening on http://localhost:${port}`);
+  server.log.info(`server listening on http://localhost:${port}`);
 });

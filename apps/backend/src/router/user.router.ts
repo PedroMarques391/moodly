@@ -25,7 +25,7 @@ export default function userRouter(fastify: FastifyInstance) {
       } catch (error) {
         reply.send({ message: error.message }).code(400);
       }
-    }
+    },
   );
 
   fastify.post<{ Body: LoginUser }>(
@@ -38,11 +38,13 @@ export default function userRouter(fastify: FastifyInstance) {
       try {
         const payload = await userService.loginUser({ email, password });
         const token = fastify.jwt.sign(payload);
-        reply.code(201).send({ token });
+        req.log.info({ userName: payload.name }, "User connected");
+        reply.code(200).send({ token });
       } catch (error) {
+        req.log.error(error);
         reply.code(400).send({ error: 400, message: error.message });
       }
-    }
+    },
   );
 
   fastify.get(
@@ -62,7 +64,7 @@ export default function userRouter(fastify: FastifyInstance) {
       } catch (error) {
         reply.send(error).code(400);
       }
-    }
+    },
   );
 
   fastify.put<{ Body: updateUserDTO }>(
@@ -80,7 +82,7 @@ export default function userRouter(fastify: FastifyInstance) {
       } catch (error) {
         reply.send(error).code(400);
       }
-    }
+    },
   );
 
   fastify.post(
@@ -99,16 +101,16 @@ export default function userRouter(fastify: FastifyInstance) {
         const url = await uploadService.uploadFile(
           data.file,
           data.filename,
-          data.mimetype
+          data.mimetype,
         );
 
         return reply.status(200).send({
           url: url,
         });
       } catch (error) {
-        console.error(error);
+        req.log.error(error);
         return reply.code(500).send({ message: error.message });
       }
-    }
+    },
   );
 }
