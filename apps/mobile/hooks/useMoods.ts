@@ -1,6 +1,6 @@
 import { useMoodStore } from "@/store/mood.store";
 import { getItem } from "@/utils/storage";
-import { CreateMoodDTO } from "@moodly/core";
+import { CreateMoodDTO, UpdateMoodDTO } from "@moodly/core";
 import { useCallback } from "react";
 
 export default function useMoods() {
@@ -104,9 +104,45 @@ export default function useMoods() {
     }
   };
 
+  const updateMood = async (id: string, data: UpdateMoodDTO) => {
+    setIsLoading(true);
+    setError(null);
+    const token = await getItem("token");
+
+    try {
+      if (!token) {
+        throw new Error("Operation unauthorized");
+      }
+
+      const response = await fetch(`${urlBase}${id}`, {
+        method: "PUT",
+        body: JSON.stringify(data),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error("Failed to update mood");
+      }
+
+      await getMoods();
+
+      return { success: true };
+    } catch (error) {
+      console.error("Error updating mood:", error);
+      setError((error as Error).message);
+      return { success: false, error: (error as Error).message };
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return {
     getMoods,
     createMood,
+    updateMood,
     deleteMood,
   };
 }
