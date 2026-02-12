@@ -12,7 +12,7 @@ export default function MoodsScreen() {
       <FlatList
         data={moods}
         keyExtractor={(item) => item.id}
-        numColumns={4}
+        numColumns={3}
         columnWrapperStyle={styles.columnWrapper}
         contentContainerStyle={[
           styles.listContent,
@@ -34,12 +34,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#fff",
   },
   listContent: {
-    padding: 10,
+    padding: 16,
     paddingVertical: 20,
   },
   columnWrapper: {
-    justifyContent: "center",
-    gap: 16,
+    justifyContent: "space-between",
+    gap: 12,
+    marginBottom: 12,
   },
   emptyContainer: {
     alignItems: "center",
