@@ -1,5 +1,5 @@
 import { moodCard } from "@/styles/moodCard.styles";
-import { formatDate } from "@/utils/formatDate";
+import { getDayAndMonth } from "@/utils/dateHelpers";
 import getMoodColor from "@/utils/getMoodColor";
 import getMoodText from "@/utils/getMoodText";
 import { Mood } from "@moodly/core";
@@ -47,9 +47,7 @@ export default function MoodCard({ mood, variant, isLoading }: MoodCardProps) {
 
   const color = getMoodColor(mood.rating);
   const title = getMoodText(mood.rating);
-  const date = formatDate(mood.dateLogged).split("/");
-  const day = date[0];
-  const month = date[1];
+  const { day, month } = getDayAndMonth(mood.dateLogged);
 
   return (
     <>
